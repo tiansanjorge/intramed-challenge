@@ -6,7 +6,15 @@ import type { Character, Filtros } from "@/hooks/useCharacters";
 import { toggleFavorite } from "@/store/favoritesSlice";
 
 vi.mock("@/components/AdvancedFilters", () => ({
-  AdvancedFiltersModal: ({ onAplicar }: any) => (
+  AdvancedFiltersModal: ({
+    onAplicar,
+  }: {
+    onAplicar: (filtros: {
+      especie: string[];
+      genero: string[];
+      estado: string[];
+    }) => void;
+  }) => (
     <button
       onClick={() => onAplicar({ especie: ["Alien"], genero: [], estado: [] })}
     >
@@ -17,7 +25,13 @@ vi.mock("@/components/AdvancedFilters", () => ({
 
 vi.mock("@/components/CharacterDetail", () => ({
   __esModule: true,
-  default: ({ nombre, onToggleFavorito }: any) => (
+  default: ({
+    nombre,
+    onToggleFavorito,
+  }: {
+    nombre: string;
+    onToggleFavorito: () => void;
+  }) => (
     <div>
       <span>{nombre}</span>
       <button onClick={onToggleFavorito}>Fav</button>
