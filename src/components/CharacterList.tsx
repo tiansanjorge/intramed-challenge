@@ -347,36 +347,39 @@ const CharacterList = () => {
                     />
 
                     <div
-                      className={`absolute inset-0 flex items-center justify-center gap-4 rounded-lg max-w-[31.75rem] 
-    bg-black transition-opacity duration-300 ease-in-out
+                      className={`absolute inset-0 flex items-center justify-center gap-4 rounded-lg max-w-[31.75rem]
+    bg-black bg-opacity-60 
+    transition-opacity duration-500 ease-in-out
     ${
       overlayLeftCard === char.id
-        ? "opacity-100 bg-opacity-60 pointer-events-auto"
-        : "opacity-0 bg-opacity-0 pointer-events-none"
+        ? "opacity-100 pointer-events-auto"
+        : "opacity-0 pointer-events-none"
     }`}
                     >
-                      <button
-                        onClick={() => setSelectedCharacter(char)}
-                        className="bg-white text-gray-800 px-4 py-2 rounded-full font-semibold shadow hover:bg-gray-300 transition"
-                      >
-                        Detalle
-                      </button>
+                      <div className="flex gap-4">
+                        <button
+                          onClick={() => setSelectedCharacter(char)}
+                          className="bg-white text-gray-800 px-4 py-2 rounded-full font-semibold shadow hover:bg-gray-300"
+                        >
+                          Detalle
+                        </button>
 
-                      {selectedLeftCard === char.id ? (
-                        <button
-                          onClick={() => setSelectedLeftCard(null)}
-                          className="bg-red-600 text-white px-4 py-2 rounded-full font-semibold shadow hover:bg-red-700 transition"
-                        >
-                          Deseleccionar
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => setSelectedLeftCard(char.id)}
-                          className="bg-[#B6DA8B] text-[#354E18] px-4 py-2 rounded-full font-semibold shadow hover:bg-[#354E18] hover:text-[#B6DA8B] transition"
-                        >
-                          Seleccionar
-                        </button>
-                      )}
+                        {selectedLeftCard === char.id ? (
+                          <button
+                            onClick={() => setSelectedLeftCard(null)}
+                            className="bg-red-600 text-white px-4 py-2 rounded-full font-semibold shadow hover:bg-red-700"
+                          >
+                            Deseleccionar
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => setSelectedLeftCard(char.id)}
+                            className="bg-[#B6DA8B] text-[#354E18] px-4 py-2 rounded-full font-semibold shadow hover:bg-[#354E18] hover:text-[#B6DA8B]"
+                          >
+                            Seleccionar
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -459,36 +462,39 @@ const CharacterList = () => {
                     />
 
                     <div
-                      className={`absolute inset-0 flex items-center justify-center gap-4 rounded-lg max-w-[31.75rem] 
-    bg-black transition-opacity duration-300 ease-in-out
+                      className={`absolute inset-0 flex items-center justify-center gap-4 rounded-lg max-w-[31.75rem]
+    bg-black bg-opacity-60 
+    transition-opacity duration-500 ease-in-out
     ${
       overlayRightCard === char.id
-        ? "opacity-100 bg-opacity-60 pointer-events-auto"
-        : "opacity-0 bg-opacity-0 pointer-events-none"
+        ? "opacity-100 pointer-events-auto"
+        : "opacity-0 pointer-events-none"
     }`}
                     >
-                      <button
-                        onClick={() => setSelectedCharacter(char)}
-                        className="bg-white text-gray-800 px-4 py-2 rounded-full font-semibold shadow hover:bg-gray-300 transition"
-                      >
-                        Detalle
-                      </button>
+                      <div className="flex gap-4">
+                        <button
+                          onClick={() => setSelectedCharacter(char)}
+                          className="bg-white text-gray-800 px-4 py-2 rounded-full font-semibold shadow hover:bg-gray-300"
+                        >
+                          Detalle
+                        </button>
 
-                      {selectedRightCard === char.id ? (
-                        <button
-                          onClick={() => setSelectedRightCard(null)}
-                          className="bg-red-600 text-white px-4 py-2 rounded-full font-semibold shadow hover:bg-red-700 transition"
-                        >
-                          Deseleccionar
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => setSelectedRightCard(char.id)}
-                          className="bg-[#B6DA8B] text-[#354E18] px-4 py-2 rounded-full font-semibold shadow hover:bg-[#354E18] hover:text-[#B6DA8B] transition"
-                        >
-                          Seleccionar
-                        </button>
-                      )}
+                        {selectedRightCard === char.id ? (
+                          <button
+                            onClick={() => setSelectedRightCard(null)}
+                            className="bg-red-600 text-white px-4 py-2 rounded-full font-semibold shadow hover:bg-red-700"
+                          >
+                            Deseleccionar
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => setSelectedRightCard(char.id)}
+                            className="bg-[#B6DA8B] text-[#354E18] px-4 py-2 rounded-full font-semibold shadow hover:bg-[#354E18] hover:text-[#B6DA8B]"
+                          >
+                            Seleccionar
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
