@@ -1,6 +1,6 @@
 // CharactersView.test.tsx
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi, type Mock } from "vitest"; // 👈 importamos Mock
+import { describe, expect, it, vi, type Mock } from "vitest";
 import CharactersView from "@/app/characters/page";
 
 // Mock de CharacterList y EpisodesComparison
@@ -12,12 +12,17 @@ vi.mock("@/components/EpisodesComparison", () => ({
   EpisodesComparison: ({
     episodesLeft = [],
     episodesRight = [],
+    nameLeft,
+    nameRight,
   }: {
-    episodesLeft?: string[];
-    episodesRight?: string[];
+    episodesLeft?: { nombre: string; codigo: string }[];
+    episodesRight?: { nombre: string; codigo: string }[];
+    nameLeft?: string;
+    nameRight?: string;
   }) => (
     <div data-testid="episodes-comparison">
-      EpisodesComparison - {episodesLeft.length} vs {episodesRight.length}
+      EpisodesComparison - {episodesLeft.length} vs {episodesRight.length} -{" "}
+      {nameLeft} & {nameRight}
     </div>
   ),
 }));
@@ -36,6 +41,8 @@ describe("CharactersView", () => {
       selectedRightCard: null,
       episodesLeft: [],
       episodesRight: [],
+      charactersLeft: [],
+      charactersRight: [],
     });
 
     render(<CharactersView />);
@@ -46,17 +53,19 @@ describe("CharactersView", () => {
 
   it("renderiza EpisodesComparison solo si hay 2 personajes seleccionados", () => {
     (useCharacters as Mock).mockReturnValue({
-      selectedLeftCard: { id: 1, name: "Rick" },
-      selectedRightCard: { id: 2, name: "Morty" },
-      episodesLeft: ["E1", "E2"],
-      episodesRight: ["E3"],
+      selectedLeftCard: 1,
+      selectedRightCard: 2,
+      episodesLeft: [{ nombre: "Ep1", codigo: "E1" }],
+      episodesRight: [{ nombre: "Ep2", codigo: "E2" }],
+      charactersLeft: [{ id: 1, name: "Rick" }],
+      charactersRight: [{ id: 2, name: "Morty" }],
     });
 
     render(<CharactersView />);
 
     expect(screen.getByTestId("character-list")).toBeInTheDocument();
     expect(screen.getByTestId("episodes-comparison")).toHaveTextContent(
-      "EpisodesComparison - 2 vs 1"
+      "EpisodesComparison - 1 vs 1 - Rick & Morty"
     );
   });
 });

@@ -6,6 +6,8 @@ Permite **explorar personajes con profundidad de detalles, aplicar filtros diná
 
 Incluye **UI moderna con TailwindCSS, estado global con Redux, modales personalizados y un flujo de testing completo con Vitest + React Testing Library**, alcanzando una cobertura cercana al 100%.
 
+👉 **[Acceder a la demo en Netlify](https://intramed-challenge.netlify.app/)**
+
 ---
 
 ## ⚙️ Instalación y ejecución

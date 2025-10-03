@@ -10,9 +10,16 @@ type Episode = {
 interface Props {
   episodesLeft: Episode[];
   episodesRight: Episode[];
+  nameLeft: string; // 👈 nuevo
+  nameRight: string; // 👈 nuevo
 }
 
-export const EpisodesComparison = ({ episodesLeft, episodesRight }: Props) => {
+export const EpisodesComparison = ({
+  episodesLeft,
+  episodesRight,
+  nameLeft,
+  nameRight,
+}: Props) => {
   // Intersección por "codigo"
   const intersection = episodesLeft.filter((ep) =>
     episodesRight.some((e) => e.codigo === ep.codigo)
@@ -63,12 +70,12 @@ export const EpisodesComparison = ({ episodesLeft, episodesRight }: Props) => {
   };
 
   return (
-    <div className=" p-4 mb-6">
+    <div className="p-4 mb-6">
       <h2 className="text-2xl font-bold mb-6 text-center">Episodios</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
         {/* Episodios Personaje 1 */}
         <div className="bg-white rounded-lg shadow p-4">
-          <h3 className="text-lg font-bold mb-4 text-center">Personaje #1</h3>
+          <h3 className="text-lg font-bold mb-4 text-center">{nameLeft}</h3>
           {renderList(
             episodesLeft,
             "Sin episodios",
@@ -90,7 +97,7 @@ export const EpisodesComparison = ({ episodesLeft, episodesRight }: Props) => {
 
         {/* Episodios Personaje 2 */}
         <div className="bg-white rounded-lg shadow p-4">
-          <h3 className="text-lg font-bold mb-4 text-center">Personaje #2</h3>
+          <h3 className="text-lg font-bold mb-4 text-center">{nameRight}</h3>
           {renderList(
             episodesRight,
             "Sin episodios",

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import Providers from "@/app/providers/Providers";
+import Providers from "@/providers/Providers";
 
 // Mock de store y persistor
 vi.mock("@/store", () => ({
