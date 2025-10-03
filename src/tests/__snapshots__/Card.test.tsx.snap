@@ -1,0 +1,95 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Card > match snapshot 1`] = `
+<div>
+  <div
+    class="flex flex-col sm:flex-row bg-white rounded-lg shadow-md hover:shadow-lg transition cursor-pointer w-full max-w-[31.75rem]"
+  >
+    <div
+      class="relative"
+    >
+      <img
+        alt="Rick Sanchez"
+        class="w-full max-h-[238px] sm:max-h-none sm:w-36 sm:h-36 max-w-none object-cover object-center rounded-t-lg sm:rounded-tr-none sm:rounded-l-lg"
+        height="300"
+        src="/rick.png"
+        width="300"
+      />
+      <button
+        aria-label="Toggle favorito"
+        class="absolute top-2 right-2 sm:left-2 sm:right-auto bg-gray-50 rounded-full w-11 h-11 flex items-center justify-center shadow"
+      >
+        <img
+          alt="Agregar a favoritos"
+          height="20"
+          src="/star-empty.png"
+          width="20"
+        />
+      </button>
+    </div>
+    <div
+      class="flex flex-col justify-evenly py-3 px-5 w-full gap-2 sm:gap-0"
+    >
+      <div
+        class="flex items-start justify-between w-full"
+      >
+        <div>
+          <h2
+            class="font-semibold text-gray-800 mb-1"
+          >
+            Rick Sanchez
+          </h2>
+          <p
+            class="text-sm text-[#575B52]"
+          >
+            Human
+          </p>
+        </div>
+        <span
+          class="text-sm font-semibold px-2 py-1 rounded-full flex items-center gap-1 self-start bg-lime-200 text-green-800"
+        >
+          <img
+            alt="Vivo"
+            height="16"
+            src="/alive.png"
+            width="16"
+          />
+          Vivo
+        </span>
+      </div>
+      <div
+        class="grid grid-cols-12 gap-4 text-sm mt-2"
+      >
+        <div
+          class="col-span-6 flex flex-col"
+        >
+          <p
+            class="text-xs font-bold text-[#808C73] mb-1"
+          >
+            Last known location
+          </p>
+          <p
+            class="text-gray-500"
+          >
+            Earth (C-137)
+          </p>
+        </div>
+        <div
+          class="col-span-6 flex flex-col"
+        >
+          <p
+            class="text-xs font-bold text-[#808C73] mb-1"
+          >
+            First seen in
+          </p>
+          <p
+            class="text-gray-500"
+          >
+            Earth
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

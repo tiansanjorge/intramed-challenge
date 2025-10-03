@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Check } from "lucide-react";
 
 export default function Home() {
   const router = useRouter();
@@ -39,24 +40,28 @@ export default function Home() {
           <img
             src="/brand-logo.svg"
             alt="Rick and Morty logo"
-            className="mx-auto mb-6"
+            className="mx-auto"
           />
           <h2 className="text-2xl font-semibold mb-4">Bienvenido</h2>
-          <p className="mb-6 font-medium w-full mx-auto">
-            App interactiva de Rick & Morty con selección de personajes y
-            comparación de apariciones en episodios. <br />
-            <br />
-            EXTRA: búsqueda, filtros, favoritos y vista de detalle.
-            <br /> Diseño responsive y enfoque en una UX & UI moderna e
-            intuitiva.
-          </p>
+          <div className="mb-6 font-medium w-8/12 mx-auto">
+            App interactiva con selección de personajes y comparación de
+            apariciones en episodios.
+          </div>
           <button
             className="bg-lime-500 hover:bg-lime-600 text-black font-semibold py-2 px-6 rounded-full shadow-md transition"
             onClick={() => router.push("/characters")}
           >
             Comenzar
           </button>
-          <p className="mt-20">Desarrollado por</p>
+          <p className="mt-14 font-bold">EXTRAS:</p>
+          <p className=" ">
+            Búsqueda • Filtros • Favoritos • Vista de detalle
+          </p>{" "}
+          <p>Full responsive • UI moderna • UX intuitiva</p>
+          <h2 className="flex items-center justify-center gap-2 font-bold mt-4 border border-lime-400 rounded-full w-max mx-auto px-4 py-2">
+            100% TESTEADA <Check className="w-6 h-6 text-lime-400" />
+          </h2>
+          <p className="mt-10">Desarrollado por</p>
           <p className="text-xl font-bold">Sebastián Sanjorge</p>
         </div>
       </div>

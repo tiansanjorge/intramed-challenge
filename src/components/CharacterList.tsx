@@ -44,7 +44,10 @@ const CharacterList = ({
 }: Props) => {
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
+      <div
+        className="flex justify-center items-center h-64"
+        data-testid="spinner"
+      >
         <div className="w-12 h-12 border-4 border-[#B6DA8B] border-t-[#354E18] rounded-full animate-spin"></div>
       </div>
     );
@@ -91,6 +94,7 @@ const CharacterList = ({
           {/* Botón filtros */}
           <button
             onClick={() => setShowModal(true)}
+            aria-label="Abrir filtros"
             className="w-10 h-10 rounded-full bg-white shadow border border-gray-300 flex items-center justify-center"
           >
             <SlidersHorizontalIcon className="w-4 h-4 text-gray-500" />
@@ -138,7 +142,7 @@ const CharacterList = ({
             No hay personajes para mostrar.{" "}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-6">
             {/* Columna izquierda */}
             <CharacterColumn
               title="Personaje #1"
@@ -155,6 +159,10 @@ const CharacterList = ({
               setSelectedCharacter={setSelectedCharacter}
             />
 
+            {/* Divisor */}
+            <div className="hidden md:block border-l-2 border-dashed border-[#354e1859] mx-auto"></div>
+
+            {/* Columna derecha */}
             <CharacterColumn
               title="Personaje #2"
               paginated={paginatedRight}

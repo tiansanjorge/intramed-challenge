@@ -15,14 +15,14 @@ export interface Character {
   status: "Alive" | "Dead" | "unknown";
 }
 
-export interface TarjetaProps {
+export interface CardProps {
   character: Character;
   esFavorito?: boolean;
   onClick?: () => void;
   onToggleFavorito?: () => void;
 }
 
-export const Tarjeta: React.FC<TarjetaProps> = ({
+export const Card: React.FC<CardProps> = ({
   character,
   esFavorito = false,
   onClick,

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Montserrat } from "next/font/google";
-import Providers from "@/components/Providers";
+import Providers from "@/app/providers/Providers";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -11,6 +11,9 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "Rick & Morty Challenge",
   description: "Frontend challenge with Next.js, Redux, Tailwind",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({

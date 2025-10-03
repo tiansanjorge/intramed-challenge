@@ -63,7 +63,7 @@ export const EpisodesComparison = ({ episodesLeft, episodesRight }: Props) => {
   };
 
   return (
-    <div className=" p-4">
+    <div className=" p-4 mb-6">
       <h2 className="text-2xl font-bold mb-6 text-center">Episodios</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
         {/* Episodios Personaje 1 */}

@@ -15,6 +15,7 @@ export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
     <div className="fixed inset-0 z-50 bg-black bg-opacity-60 flex sm:items-center justify-center sm:px-0">
       <div className="bg-white sm:rounded-xl w-full sm:max-w-[600px] relative shadow-lg min-h-[100vh] sm:min-h-0 sm:max-h-[90vh] overflow-y-scroll">
         <button
+          aria-label="Cerrar modal"
           onClick={onClose}
           className="hidden sm:flex bg-white p-2 rounded-full absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10"
         >

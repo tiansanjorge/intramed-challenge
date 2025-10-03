@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Tarjeta } from "./Card";
+import { Card } from "./Card";
 import { toggleFavorite } from "@/store/favoritesSlice";
 import type { AppDispatch } from "@/store";
 
@@ -76,7 +76,7 @@ export const CharacterColumn = ({
         )}
       </div>
 
-      {/* Listado de tarjetas */}
+      {/* Listado de Cards */}
       <div className="flex flex-col justify-between">
         <div>
           {paginated.map((char) => (
@@ -87,7 +87,7 @@ export const CharacterColumn = ({
               }`}
               onMouseLeave={() => setOverlayCard(null)}
             >
-              <Tarjeta
+              <Card
                 character={char}
                 esFavorito={favoritos.some((f) => f.id === char.id)}
                 onClick={() =>
