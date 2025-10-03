@@ -41,6 +41,13 @@ const CharacterList = () => {
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null
   );
+  const [selectedLeftCard, setSelectedLeftCard] = useState<number | null>(null);
+  const [selectedRightCard, setSelectedRightCard] = useState<number | null>(
+    null
+  );
+  const [overlayLeftCard, setOverlayLeftCard] = useState<number | null>(null);
+  const [overlayRightCard, setOverlayRightCard] = useState<number | null>(null);
+
   const [episodes, setEpisodes] = useState<
     { nombre: string; codigo: string }[]
   >([]);
@@ -238,7 +245,7 @@ const CharacterList = () => {
           {/* Columna izquierda */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <h2 className="font-bold">Character #1</h2>
+              <h2 className="font-bold">Personaje #1</h2>
               {/* Flecha izquierda */}
               {filteredLeft.length > 0 && (
                 <div className="flex items-center gap-3">
@@ -273,22 +280,23 @@ const CharacterList = () => {
             <div className="flex flex-col justify-between">
               <div>
                 {paginatedLeft.map((char) => (
-                  <div key={char.id} className="mb-4">
+                  <div
+                    key={char.id}
+                    className={`relative mb-4 rounded-lg transition max-w-[31.75rem] ${
+                      selectedLeftCard === char.id
+                        ? "shadow-[0_0_15px_4px_rgba(34,197,94,0.7)]"
+                        : ""
+                    }`}
+                    onMouseLeave={() => setOverlayLeftCard(null)}
+                  >
                     <Tarjeta
-                      nombre={char.name}
-                      especie={char.species}
-                      imagen={char.image}
-                      ubicacion={char.location.name}
-                      origen={char.origin.name}
-                      estado={
-                        char.status === "Alive"
-                          ? "Vivo"
-                          : char.status === "Dead"
-                          ? "Muerto"
-                          : "Desconocido"
-                      }
+                      character={char}
                       esFavorito={favoritos.some((f) => f.id === char.id)}
-                      onClick={() => setSelectedCharacter(char)}
+                      onClick={() =>
+                        setOverlayLeftCard(
+                          overlayLeftCard === char.id ? null : char.id
+                        )
+                      }
                       onToggleFavorito={() =>
                         dispatch(
                           toggleFavorite({
@@ -308,6 +316,39 @@ const CharacterList = () => {
                         )
                       }
                     />
+
+                    <div
+                      className={`absolute inset-0 flex items-center justify-center gap-4 rounded-lg max-w-[31.75rem] 
+    bg-black transition-opacity duration-300 ease-in-out
+    ${
+      overlayLeftCard === char.id
+        ? "opacity-100 bg-opacity-60 pointer-events-auto"
+        : "opacity-0 bg-opacity-0 pointer-events-none"
+    }`}
+                    >
+                      <button
+                        onClick={() => setSelectedCharacter(char)}
+                        className="bg-white text-gray-800 px-4 py-2 rounded-full font-semibold shadow hover:bg-gray-300 transition"
+                      >
+                        Detalle
+                      </button>
+
+                      {selectedLeftCard === char.id ? (
+                        <button
+                          onClick={() => setSelectedLeftCard(null)}
+                          className="bg-red-600 text-white px-4 py-2 rounded-full font-semibold shadow hover:bg-red-700 transition"
+                        >
+                          Deseleccionar
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => setSelectedLeftCard(char.id)}
+                          className="bg-[#B6DA8B] text-[#354E18] px-4 py-2 rounded-full font-semibold shadow hover:bg-[#354E18] hover:text-[#B6DA8B] transition"
+                        >
+                          Seleccionar
+                        </button>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -317,10 +358,10 @@ const CharacterList = () => {
           {/* Columna derecha */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <h2 className="font-bold">Character #2</h2>
+              <h2 className="font-bold">Personaje #2</h2>
 
               {/* Flecha izquierda */}
-              {filteredLeft.length > 0 && (
+              {filteredRight.length > 0 && (
                 <div className="flex items-center gap-3">
                   <button
                     disabled={pageRight === 1}
@@ -351,22 +392,23 @@ const CharacterList = () => {
             <div className="flex flex-col justify-between">
               <div>
                 {paginatedRight.map((char) => (
-                  <div key={char.id} className="mb-4">
+                  <div
+                    key={char.id}
+                    className={`relative mb-4 rounded-lg transition max-w-[31.75rem] ${
+                      selectedRightCard === char.id
+                        ? "shadow-[0_0_15px_4px_rgba(34,197,94,0.7)]"
+                        : ""
+                    }`}
+                    onMouseLeave={() => setOverlayRightCard(null)}
+                  >
                     <Tarjeta
-                      nombre={char.name}
-                      especie={char.species}
-                      imagen={char.image}
-                      ubicacion={char.location.name}
-                      origen={char.origin.name}
-                      estado={
-                        char.status === "Alive"
-                          ? "Vivo"
-                          : char.status === "Dead"
-                          ? "Muerto"
-                          : "Desconocido"
-                      }
+                      character={char}
                       esFavorito={favoritos.some((f) => f.id === char.id)}
-                      onClick={() => setSelectedCharacter(char)}
+                      onClick={() =>
+                        setOverlayRightCard(
+                          overlayRightCard === char.id ? null : char.id
+                        )
+                      }
                       onToggleFavorito={() =>
                         dispatch(
                           toggleFavorite({
@@ -386,6 +428,39 @@ const CharacterList = () => {
                         )
                       }
                     />
+
+                    <div
+                      className={`absolute inset-0 flex items-center justify-center gap-4 rounded-lg max-w-[31.75rem] 
+    bg-black transition-opacity duration-300 ease-in-out
+    ${
+      overlayRightCard === char.id
+        ? "opacity-100 bg-opacity-60 pointer-events-auto"
+        : "opacity-0 bg-opacity-0 pointer-events-none"
+    }`}
+                    >
+                      <button
+                        onClick={() => setSelectedCharacter(char)}
+                        className="bg-white text-gray-800 px-4 py-2 rounded-full font-semibold shadow hover:bg-gray-300 transition"
+                      >
+                        Detalle
+                      </button>
+
+                      {selectedRightCard === char.id ? (
+                        <button
+                          onClick={() => setSelectedRightCard(null)}
+                          className="bg-red-600 text-white px-4 py-2 rounded-full font-semibold shadow hover:bg-red-700 transition"
+                        >
+                          Deseleccionar
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => setSelectedRightCard(char.id)}
+                          className="bg-[#B6DA8B] text-[#354E18] px-4 py-2 rounded-full font-semibold shadow hover:bg-[#354E18] hover:text-[#B6DA8B] transition"
+                        >
+                          Seleccionar
+                        </button>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
