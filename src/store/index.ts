@@ -12,6 +12,7 @@ import {
   REHYDRATE,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+
 import favoritesReducer from "./favoritesSlice";
 import searchReducer from "./searchSlice";
 
@@ -39,5 +40,12 @@ export const store = configureStore({
 
 export const persistor = persistStore(store);
 
+// ✅ Tipos globales
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+// ✅ Hooks custom para no repetir tipos en cada componente
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
