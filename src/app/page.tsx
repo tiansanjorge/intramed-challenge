@@ -43,10 +43,12 @@ export default function Home() {
           />
           <h2 className="text-2xl font-semibold mb-4">Bienvenido</h2>
           <p className="mb-6 font-medium w-full mx-auto">
-            App interactiva de Rick & Morty con búsqueda, filtros, favoritos y
-            vista de episodios. Desarrollada con microfrontends e integrada con
-            una librería de componentes propia. Diseño responsive y enfoque en
-            una experiencia UX/UI moderna e intuitiva.
+            App interactiva de Rick & Morty con selección de personajes y
+            comparación de apariciones en episodios. <br />
+            <br />
+            EXTRA: búsqueda, filtros, favoritos y vista de detalle.
+            <br /> Diseño responsive y enfoque en una UX & UI moderna e
+            intuitiva.
           </p>
           <button
             className="bg-lime-500 hover:bg-lime-600 text-black font-semibold py-2 px-6 rounded-full shadow-md transition"

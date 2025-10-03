@@ -37,6 +37,7 @@ const CharacterList = () => {
   const [charactersRight, setCharactersRight] = useState<Character[]>([]);
   const [pageLeft, setPageLeft] = useState(1);
   const [pageRight, setPageRight] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null
@@ -61,12 +62,32 @@ const CharacterList = () => {
 
   // Fetch inicial (podes cambiar si queres traer más páginas en paralelo)
   useEffect(() => {
-    fetch("https://rickandmortyapi.com/api/character?page=1")
-      .then((res) => res.json())
-      .then((data) => {
-        setCharactersLeft(data.results || []);
-        setCharactersRight(data.results || []);
-      });
+    const fetchAllCharacters = async () => {
+      setLoading(true); // arranca cargando
+      try {
+        let allCharacters: Character[] = [];
+        let nextUrl: string | null =
+          "https://rickandmortyapi.com/api/character?page=1";
+
+        while (nextUrl) {
+          const res: Response = await fetch(nextUrl);
+          const data: { info: { next: string | null }; results: Character[] } =
+            await res.json();
+
+          allCharacters = [...allCharacters, ...data.results];
+          nextUrl = data.info.next;
+        }
+
+        setCharactersLeft(allCharacters);
+        setCharactersRight(allCharacters);
+      } catch (err) {
+        console.error("❌ Error cargando personajes", err);
+      } finally {
+        setLoading(false); // termina carga
+      }
+    };
+
+    fetchAllCharacters();
   }, []);
 
   useEffect(() => {
@@ -129,6 +150,14 @@ const CharacterList = () => {
       [tipo]: prev[tipo].filter((v) => v !== valor),
     }));
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="w-12 h-12 border-4 border-[#B6DA8B] border-t-[#354E18] rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 w-full xl:w-10/12 2xl:w-9/12 m-auto">
@@ -284,7 +313,7 @@ const CharacterList = () => {
                     key={char.id}
                     className={`relative mb-4 rounded-lg transition max-w-[31.75rem] ${
                       selectedLeftCard === char.id
-                        ? "shadow-[0_0_15px_4px_rgba(34,197,94,0.7)]"
+                        ? "shadow-[0_0_15px_4px_#354E18]"
                         : ""
                     }`}
                     onMouseLeave={() => setOverlayLeftCard(null)}
@@ -396,7 +425,7 @@ const CharacterList = () => {
                     key={char.id}
                     className={`relative mb-4 rounded-lg transition max-w-[31.75rem] ${
                       selectedRightCard === char.id
-                        ? "shadow-[0_0_15px_4px_rgba(34,197,94,0.7)]"
+                        ? "shadow-[0_0_15px_4px_#354E18]"
                         : ""
                     }`}
                     onMouseLeave={() => setOverlayRightCard(null)}
