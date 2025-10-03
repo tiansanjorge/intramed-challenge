@@ -90,4 +90,4 @@ El hook expone todo este estado y funciones para que `CharacterList` y demás co
 
 ---
 
-👨‍💻 **Autor**: Proyecto desarrollado por [Sebastián Sanjorge](https://ssanjorge.netlify.com) como challenge y práctica profesional en frontend.
+👨‍💻 **Autor**: Proyecto desarrollado por [Sebastián Sanjorge](https://ssanjorge.netlify.app) como challenge y práctica profesional en frontend.
