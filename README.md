@@ -15,8 +15,8 @@ Incluye **UI moderna con TailwindCSS, estado global con Redux, modales personali
 ### 1. Clonar el repo
 
 ```bash
-git clone <url-del-repo>
-cd <nombre-del-repo>
+git clone <https://github.com/tiansanjorge/intramed-challenge.git>
+cd <intramed-challenge>
 ```
 
 ### 2. Instalar dependencias
@@ -30,7 +30,7 @@ npm install
 ### 3. Levantar en desarrollo
 
 ```bash
-pnpm dev
+npm run dev
 ```
 
 La app estará corriendo en [http://localhost:3000](http://localhost:3000).
@@ -39,7 +39,7 @@ La app estará corriendo en [http://localhost:3000](http://localhost:3000).
 
 ## 🧩 Funcionalidades principales
 
-- **Listado doble de personajes**: dos columnas para elegir y comparar.
+- **Listado doble de personajes**: dos columnas para elegir y comparar sus episodios.
 - **Filtros**: por especie, género y estado.
 - **Favoritos**: persistidos en Redux, accesibles en la pestaña "Favoritos".
 - **Modal de detalle**: muestra información completa del personaje y sus episodios.
@@ -56,13 +56,13 @@ El proyecto tiene una cobertura total cercana al **100%**
 ### Ejecutar todos los tests
 
 ```bash
-pnpm test
+npm run test
 ```
 
 ### Ver reporte de cobertura
 
 ```bash
-pnpm test -- --coverage
+npm run test:coverage
 ```
 
 ---
@@ -90,4 +90,4 @@ El hook expone todo este estado y funciones para que `CharacterList` y demás co
 
 ---
 
-👨‍💻 **Autor**: Proyecto desarrollado por [Sebastián Sanjorge](https://ssanjorge.netlify.com) como challenge y práctica profesional en frontend.
+👨‍💻 **Autor**: Proyecto desarrollado por [Sebastián Sanjorge](https://ssanjorge.netlify.app) como challenge y práctica profesional en frontend.
