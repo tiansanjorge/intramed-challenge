@@ -62,7 +62,14 @@ export default function Home() {
             100% TESTEADA <Check className="w-6 h-6 text-lime-400" />
           </h2>
           <p className="mt-10">Desarrollado por</p>
-          <p className="text-xl font-bold">Sebastián Sanjorge</p>
+          <a
+            href="https://ssanjorge.netlify.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xl font-bold hover:text-lime-400 transition duration-500 ease-in"
+          >
+            Sebastián Sanjorge
+          </a>
         </div>
       </div>
     </div>
