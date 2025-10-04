@@ -43,7 +43,7 @@ export default function Home() {
             className="mx-auto"
           />
           <h2 className="text-2xl font-semibold mb-4">Bienvenido</h2>
-          <div className="mb-6 font-medium w-8/12 mx-auto">
+          <div className="mb-6 font-medium md:w-8/12 mx-auto">
             App interactiva con selección de personajes y comparación de
             apariciones en episodios.
           </div>
