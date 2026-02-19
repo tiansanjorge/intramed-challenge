@@ -72,7 +72,7 @@ export default function Home() {
       <div className="relative z-10 flex items-center justify-center min-h-screen px-4 pt-4">
         <div className="w-full max-w-4xl">
           {/* Main content card */}
-          <div className="p-6 md:p-8">
+          <div className="p-4 md:p-6">
             {/* Logo with float animation - z-index superior para estar adelante de las partículas */}
             <div className="animate-float animate-scale-in relative z-20 max-w-md mx-auto h-[177px]">
               {/* Skeleton placeholder sutil */}
@@ -97,7 +97,7 @@ export default function Home() {
             </div>
 
             {/* CTA Button with glow effect */}
-            <div className="animate-scale-in delay-100 text-center mt-2 mb-20 relative z-10">
+            <div className="animate-scale-in delay-100 text-center mt-2 mb-12 relative z-10">
               {/* Partículas flotantes pequeñas que salen desde el botón - z-index bajo para estar detrás del logo */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
                 {/* Partículas verdes hacia arriba */}
