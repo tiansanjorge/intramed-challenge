@@ -14,11 +14,19 @@ vi.mock("@/components/EpisodesComparison", () => ({
     episodesRight = [],
     nameLeft,
     nameRight,
+    imageLeft,
+    imageRight,
+    statusLeft,
+    statusRight,
   }: {
     episodesLeft?: { nombre: string; codigo: string }[];
     episodesRight?: { nombre: string; codigo: string }[];
     nameLeft?: string;
     nameRight?: string;
+    imageLeft?: string;
+    imageRight?: string;
+    statusLeft?: "Alive" | "Dead" | "unknown";
+    statusRight?: "Alive" | "Dead" | "unknown";
   }) => (
     <div data-testid="episodes-comparison">
       EpisodesComparison - {episodesLeft.length} vs {episodesRight.length} -{" "}
@@ -43,6 +51,7 @@ describe("CharactersView", () => {
       episodesRight: [],
       charactersLeft: [],
       charactersRight: [],
+      allCharacters: [],
     });
 
     render(<CharactersView />);
@@ -57,15 +66,19 @@ describe("CharactersView", () => {
       selectedRightCard: 2,
       episodesLeft: [{ nombre: "Ep1", codigo: "E1" }],
       episodesRight: [{ nombre: "Ep2", codigo: "E2" }],
-      charactersLeft: [{ id: 1, name: "Rick" }],
-      charactersRight: [{ id: 2, name: "Morty" }],
+      charactersLeft: [{ id: 1, name: "Rick", image: "rick.jpg" }],
+      charactersRight: [{ id: 2, name: "Morty", image: "morty.jpg" }],
+      allCharacters: [
+        { id: 1, name: "Rick", image: "rick.jpg" },
+        { id: 2, name: "Morty", image: "morty.jpg" },
+      ],
     });
 
     render(<CharactersView />);
 
     expect(screen.getByTestId("character-list")).toBeInTheDocument();
     expect(screen.getByTestId("episodes-comparison")).toHaveTextContent(
-      "EpisodesComparison - 1 vs 1 - Rick & Morty"
+      "EpisodesComparison - 1 vs 1 - Rick & Morty",
     );
   });
 });

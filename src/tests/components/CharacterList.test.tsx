@@ -106,7 +106,7 @@ describe("CharacterList", () => {
   it("muestra mensaje vacío si no hay personajes", () => {
     render(<CharacterList {...baseProps} />);
     expect(
-      screen.getByText(/no hay personajes para mostrar/i)
+      screen.getByText(/no hay personajes para mostrar/i),
     ).toBeInTheDocument();
   });
 
@@ -141,11 +141,11 @@ describe("CharacterList", () => {
         filteredRight={filteredRight}
         paginatedLeft={filteredLeft}
         paginatedRight={filteredRight}
-      />
+      />,
     );
 
-    expect(screen.getByText("Personaje #1")).toBeInTheDocument();
-    expect(screen.getByText("Personaje #2")).toBeInTheDocument();
+    expect(screen.getByText("Primer Personaje")).toBeInTheDocument();
+    expect(screen.getByText("Segundo Personaje")).toBeInTheDocument();
   });
 
   it("muestra chips de filtros aplicados y permite quitarlos", () => {
@@ -155,7 +155,7 @@ describe("CharacterList", () => {
         {...baseProps}
         filters={{ especie: ["Humano"], genero: [], estado: [] }}
         removeFiltro={removeFiltro}
-      />
+      />,
     );
 
     expect(screen.getByText("Humano")).toBeInTheDocument();
@@ -169,7 +169,7 @@ describe("CharacterList", () => {
         selectedCharacter={mockCharacter}
         favoritos={[mockFavorite]}
         episodes={[{ nombre: "Pilot", codigo: "S01E01" }]}
-      />
+      />,
     );
 
     expect(screen.getByText("Rick Sanchez")).toBeInTheDocument();
@@ -187,7 +187,7 @@ describe("CharacterList", () => {
         showModal={true}
         setFilters={setFilters}
         setShowModal={setShowModal}
-      />
+      />,
     );
 
     fireEvent.click(screen.getByText("Aplicar filtros"));

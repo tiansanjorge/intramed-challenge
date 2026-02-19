@@ -1,6 +1,7 @@
 "use client";
 
 import { X, ArrowLeft, MoreVertical } from "lucide-react";
+import { useEffect, useState } from "react";
 
 type ModalProps = {
   isOpen: boolean;
@@ -9,31 +10,108 @@ type ModalProps = {
 };
 
 export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsAnimating(true);
+      // Prevenir scroll del body cuando el modal está abierto
+      document.body.style.overflow = "hidden";
+    } else {
+      setIsAnimating(false);
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-60 flex sm:items-center justify-center sm:px-0">
-      <div className="bg-white sm:rounded-xl w-full sm:max-w-[600px] relative shadow-lg min-h-[100vh] sm:min-h-0 sm:max-h-[90vh] overflow-y-scroll">
+    <div
+      className={`fixed inset-0 z-50 flex sm:items-center justify-center sm:px-0 overflow-hidden
+        transition-all duration-500 ease-out
+      `}
+    >
+      {/* Backdrop con blur y efecto animado */}
+      <div
+        className={`absolute inset-0 transition-all duration-500 ease-out
+          ${isAnimating ? "backdrop-blur-md bg-black/60" : "backdrop-blur-none bg-black/0"}
+        `}
+        onClick={onClose}
+      >
+        {/* Patrón decorativo de fondo animado */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full blur-3xl animate-blob" />
+          <div className="absolute top-20 right-20 w-40 h-40 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full blur-3xl animate-blob animation-delay-2000" />
+          <div className="absolute bottom-20 left-1/3 w-36 h-36 bg-gradient-to-br from-green-400 to-emerald-400 rounded-full blur-3xl animate-blob animation-delay-4000" />
+        </div>
+
+        {/* Patrón de puntos decorativo */}
+        <div
+          className="absolute inset-0 opacity-5"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle, white 1px, transparent 1px)",
+            backgroundSize: "30px 30px",
+          }}
+        />
+      </div>
+      {/* Contenedor del modal con glassmorphism y animaciones mejoradas */}
+      <div
+        className={`bg-white/95 sm:rounded-2xl w-full sm:max-w-[600px] relative 
+          sm:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] shadow-2xl
+          sm:border border-white/20
+          min-h-[100vh] sm:min-h-0 sm:max-h-[85vh] overflow-hidden
+          transition-all duration-500 ease-out
+          ${
+            isAnimating
+              ? "opacity-100 scale-100 translate-y-0 sm:backdrop-blur-xl"
+              : "opacity-0 scale-90 translate-y-8"
+          }
+        `}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Botón de cerrar con efecto mejorado */}
         <button
           aria-label="Cerrar modal"
           onClick={onClose}
-          className="hidden sm:flex bg-white p-2 rounded-full absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10"
+          className="hidden sm:flex bg-white/90 backdrop-blur-sm p-2 rounded-full absolute top-4 right-4 
+            text-gray-500 hover:text-gray-700 hover:bg-white active:scale-90
+            transition-all duration-200 ease-in-out z-10 
+            shadow-lg hover:shadow-xl hover:rotate-90
+            border border-gray-100"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <MoreVertical className="hidden sm:flex absolute top-[165px] right-5 w-6 h-6 text-[#808C73] cursor-pointer" />
+        <MoreVertical
+          className="hidden sm:flex absolute top-[165px] right-5 w-6 h-6 text-[#808C73] cursor-pointer 
+          transition-all duration-300 hover:text-[#354E18] hover:scale-110"
+        />
 
+        {/* Botón volver en móvil con backdrop */}
         <button
           onClick={onClose}
-          className="sm:hidden absolute top-3 left-3 rounded-full w-10 h-10 flex items-center justify-center shadow z-50"
+          className="sm:hidden absolute top-3 left-3 rounded-full w-10 h-10 flex items-center justify-center 
+            bg-black/20 backdrop-blur-md shadow-lg z-50
+            transform transition-all duration-300 ease-in-out
+            hover:bg-black/30 active:scale-90 active:bg-black/40"
         >
-          <ArrowLeft className="w-8 h-8 text-white" />
+          <ArrowLeft className="w-8 h-8 text-white drop-shadow-lg" />
         </button>
 
-        <MoreVertical className="sm:hidden absolute top-4 right-3 w-8 h-8 text-white cursor-pointer z-50" />
+        <MoreVertical
+          className="sm:hidden absolute top-4 right-3 w-8 h-8 text-white cursor-pointer z-50
+          transition-all duration-300 hover:scale-110"
+        />
 
-        {children}
+        {/* Contenedor interno con scroll */}
+        <div className="h-full sm:max-h-[85vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300">
+          {children}
+        </div>
       </div>
     </div>
   );

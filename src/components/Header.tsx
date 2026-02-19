@@ -34,17 +34,25 @@ export const Header = () => {
         <img
           src={"/brand-logo.svg"}
           alt="Rick and Morty"
-          className="mx-auto mb-6 w-72 cursor-pointer"
+          className="mx-auto mb-6 w-72 cursor-pointer 
+            transform transition-all duration-300 ease-in-out
+            hover:scale-105 hover:drop-shadow-[0_0_20px_rgba(139,197,71,0.4)]
+            active:scale-95"
           onClick={() => router.push("/")}
         />
 
         {/* Input de búsqueda */}
         <div
-          className="flex items-center bg-black border border-white/30 rounded-lg px-4 py-2"
+          className="flex items-center bg-black border border-white/30 rounded-lg px-4 py-2
+            transition-all duration-300 ease-in-out
+            hover:border-lime-400/50 hover:shadow-lg hover:shadow-lime-400/20
+            focus-within:border-lime-400 focus-within:shadow-xl focus-within:shadow-lime-400/30
+            focus-within:scale-[1.02]"
           style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
         >
           <svg
-            className="w-5 h-5 text-lime-400 mr-3"
+            className="w-5 h-5 text-lime-400 mr-3 transition-transform duration-300 ease-in-out
+              group-hover:scale-110"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
@@ -61,7 +69,8 @@ export const Header = () => {
             placeholder="Buscar personaje por nombre"
             value={searchText}
             onChange={(e) => dispatch(setSearchText(e.target.value))}
-            className="bg-transparent text-white placeholder-white w-full focus:outline-none"
+            className="bg-transparent text-white placeholder-white/70 w-full focus:outline-none
+              transition-all duration-200"
           />
         </div>
       </div>

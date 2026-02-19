@@ -10,7 +10,18 @@ const makeEpisodes = (prefix: string, count: number) =>
 
 describe("EpisodesComparison", () => {
   it("muestra mensajes vacíos cuando no hay episodios", () => {
-    render(<EpisodesComparison episodesLeft={[]} episodesRight={[]} />);
+    render(
+      <EpisodesComparison
+        episodesLeft={[]}
+        episodesRight={[]}
+        nameLeft="Character 1"
+        nameRight="Character 2"
+        imageLeft="https://example.com/image1.jpg"
+        imageRight="https://example.com/image2.jpg"
+        statusLeft="Alive"
+        statusRight="Dead"
+      />,
+    );
 
     // Hay 2 bloques vacíos: personaje 1 y personaje 2
     expect(screen.getAllByText("Sin episodios")).toHaveLength(2);
@@ -27,7 +38,13 @@ describe("EpisodesComparison", () => {
       <EpisodesComparison
         episodesLeft={episodesLeft}
         episodesRight={episodesRight}
-      />
+        nameLeft="Character 1"
+        nameRight="Character 2"
+        imageLeft="https://example.com/image1.jpg"
+        imageRight="https://example.com/image2.jpg"
+        statusLeft="Alive"
+        statusRight="unknown"
+      />,
     );
 
     // Solo 5 episodios visibles de cada lado
@@ -41,7 +58,16 @@ describe("EpisodesComparison", () => {
   it("expande la lista al hacer click en Ver más", () => {
     const episodesLeft = makeEpisodes("L", 7);
     render(
-      <EpisodesComparison episodesLeft={episodesLeft} episodesRight={[]} />
+      <EpisodesComparison
+        episodesLeft={episodesLeft}
+        episodesRight={[]}
+        nameLeft="Character 1"
+        nameRight="Character 2"
+        imageLeft="https://example.com/image1.jpg"
+        imageRight="https://example.com/image2.jpg"
+        statusLeft="Alive"
+        statusRight="Dead"
+      />,
     );
 
     const btn = screen.getByText("Ver más");
@@ -62,9 +88,21 @@ describe("EpisodesComparison", () => {
       { nombre: "Ep C", codigo: "C" },
     ];
 
-    render(<EpisodesComparison episodesLeft={left} episodesRight={right} />);
+    render(
+      <EpisodesComparison
+        episodesLeft={left}
+        episodesRight={right}
+        nameLeft="Character 1"
+        nameRight="Character 2"
+        imageLeft="https://example.com/image1.jpg"
+        imageRight="https://example.com/image2.jpg"
+        statusLeft="unknown"
+        statusRight="Alive"
+      />,
+    );
 
-    const ambosSection = screen.getByText("Ambos").parentElement as HTMLElement;
+    const ambosSection = screen.getByText("Compartidos")
+      .parentElement as HTMLElement;
 
     // En la sección "Ambos" debe estar solo Ep B
     expect(within(ambosSection).getByText("Ep B")).toBeInTheDocument();

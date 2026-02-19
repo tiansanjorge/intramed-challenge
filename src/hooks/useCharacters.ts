@@ -1,7 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleFavorite } from "@/store/favoritesSlice";
 import type { RootState } from "@/store";
+import {
+  fetchCharactersPage,
+  fetchAllEpisodes,
+  filterEpisodesByCharacter,
+} from "@/services/rickAndMortyApi";
+import {
+  reverseTranslateStatus,
+  reverseTranslateGender,
+  reverseTranslateSpecies,
+} from "@/utils/translations";
+
+export type EpisodeData = {
+  id: number;
+  name: string;
+  air_date: string;
+  episode: string;
+  characters: string[];
+  url: string;
+  created: string;
+};
 
 export type Character = {
   id: number;
@@ -25,21 +45,25 @@ export const useCharacters = () => {
   const searchText = useSelector((state: RootState) => state.search.searchText);
 
   // --- States principales ---
-  const [charactersLeft, setCharactersLeft] = useState<Character[]>([]);
-  const [charactersRight, setCharactersRight] = useState<Character[]>([]);
+  const [allCharacters, setAllCharacters] = useState<Character[]>([]);
   const [pageLeft, setPageLeft] = useState(1);
   const [pageRight, setPageRight] = useState(1);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
-    null
+    null,
   );
   const [selectedLeftCard, setSelectedLeftCard] = useState<number | null>(null);
   const [selectedRightCard, setSelectedRightCard] = useState<number | null>(
-    null
+    null,
   );
   const [overlayLeftCard, setOverlayLeftCard] = useState<number | null>(null);
   const [overlayRightCard, setOverlayRightCard] = useState<number | null>(null);
+
+  // Caché global de todos los episodios
+  const [allEpisodes, setAllEpisodes] = useState<EpisodeData[]>([]);
+  const [loadingAllEpisodes, setLoadingAllEpisodes] = useState(false);
 
   const [episodes, setEpisodes] = useState<
     { nombre: string; codigo: string }[]
@@ -59,35 +83,70 @@ export const useCharacters = () => {
     estado: [],
   });
 
-  // --- Fetch inicial ---
+  // Refs para abort controller
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  // --- Cargar todos los episodios al inicio (una sola vez) ---
   useEffect(() => {
-    const fetchAllCharacters = async () => {
-      setLoading(true);
-      try {
-        let allCharacters: Character[] = [];
-        let nextUrl: string | null =
-          "https://rickandmortyapi.com/api/character?page=1";
-
-        while (nextUrl) {
-          const res: Response = await fetch(nextUrl);
-          const data: { info: { next: string | null }; results: Character[] } =
-            await res.json();
-
-          allCharacters = [...allCharacters, ...data.results];
-          nextUrl = data.info.next;
-        }
-
-        setCharactersLeft(allCharacters);
-        setCharactersRight(allCharacters);
-      } catch (err) {
-        console.error("❌ Error cargando personajes", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAllCharacters();
+    setLoadingAllEpisodes(true);
+    fetchAllEpisodes()
+      .then(setAllEpisodes)
+      .catch((error) => {
+        console.error("❌ Error cargando episodios:", error);
+      })
+      .finally(() => setLoadingAllEpisodes(false));
   }, []);
+
+  // --- Fetch de personajes (solo las primeras 3 páginas = 60 personajes) ---
+  const fetchCharacters = useCallback(async () => {
+    // Cancelar request anterior si existe
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    abortControllerRef.current = new AbortController();
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Cargar solo las primeras 3 páginas (60 personajes)
+      // Sin filtros de la API - traemos los primeros 60 personajes
+      const pagesToFetch = 3;
+      const promises = [];
+
+      for (let i = 1; i <= pagesToFetch; i++) {
+        promises.push(fetchCharactersPage(i));
+      }
+
+      const results = await Promise.all(promises);
+
+      // Combinar todos los resultados
+      const allChars = results.flatMap((r) => r.results);
+
+      // Filtrar personaje que rompe el diseño
+      const filteredChars = allChars.filter(
+        (char) => char.name !== "Ants in my Eyes Johnson",
+      );
+
+      // Setear los datos una sola vez
+      setAllCharacters(filteredChars);
+    } catch (err) {
+      if (err instanceof Error) {
+        if (err.name !== "AbortError") {
+          console.error("❌ Error cargando personajes:", err);
+          setError(err.message);
+        }
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // --- Fetch con debouncing para búsqueda ---
+  useEffect(() => {
+    // Cargar todos los personajes una sola vez al montar el componente
+    fetchCharacters();
+  }, [fetchCharacters]);
 
   // Reset de páginas cuando cambian filtros o tab activo
   useEffect(() => {
@@ -97,52 +156,77 @@ export const useCharacters = () => {
 
   // --- Fetch episodios del personaje seleccionado ---
   useEffect(() => {
-    if (selectedCharacter) {
-      Promise.all(
-        selectedCharacter.episode.map((epUrl) =>
-          fetch(epUrl)
-            .then((res) => res.json())
-            .then((ep) => ({ nombre: ep.name, codigo: ep.episode }))
-        )
-      ).then(setEpisodes);
-    }
-  }, [selectedCharacter]);
-
-  // --- Función de filtros globales ---
-  const applyFilters = (chars: Character[]) =>
-    chars
-      .filter((char) =>
-        char.name.toLowerCase().includes(searchText.toLowerCase())
-      )
-      .filter((char) => {
-        const matchEspecie =
-          filters.especie.length === 0 ||
-          filters.especie.includes(char.species);
-        const matchGenero =
-          filters.genero.length === 0 || filters.genero.includes(char.gender);
-        const matchEstado =
-          filters.estado.length === 0 || filters.estado.includes(char.status);
-        return matchEspecie && matchGenero && matchEstado;
-      })
-      .filter((char) =>
-        activo === "favoritos" ? favoritos.some((f) => f.id === char.id) : true
+    if (selectedCharacter && allEpisodes.length > 0) {
+      // Filtrar episodios localmente en lugar de hacer peticiones HTTP
+      const filteredEpisodes = filterEpisodesByCharacter(
+        allEpisodes,
+        selectedCharacter.id,
       );
+      setEpisodes(filteredEpisodes);
+    } else {
+      setEpisodes([]);
+    }
+  }, [selectedCharacter, allEpisodes]);
 
-  const filteredLeft = applyFilters(charactersLeft);
-  const filteredRight = applyFilters(charactersRight);
+  // --- Filtro local para favoritos ---
+  const applyFavoritesFilter = (chars: Character[]) => {
+    if (activo === "favoritos") {
+      return chars.filter((char) => favoritos.some((f) => f.id === char.id));
+    }
+    return chars;
+  };
 
-  // --- Paginación local ---
-  const paginatedLeft = filteredLeft.slice(
+  // Aplicar filtros locales (especies, géneros, estados y búsqueda por nombre)
+  const applyMultipleFilters = (chars: Character[]) => {
+    return chars.filter((char) => {
+      // Filtros de especie (traducir de español a inglés para comparar)
+      if (filters.especie.length > 0) {
+        const especiesEnIngles = filters.especie.map(reverseTranslateSpecies);
+        if (!especiesEnIngles.includes(char.species)) return false;
+      }
+      // Filtros de género (traducir de español a inglés para comparar)
+      if (filters.genero.length > 0) {
+        const generosEnIngles = filters.genero.map(reverseTranslateGender);
+        if (!generosEnIngles.includes(char.gender)) return false;
+      }
+      // Filtros de estado (traducir de español a inglés para comparar)
+      if (filters.estado.length > 0) {
+        const estadosEnIngles = filters.estado.map(reverseTranslateStatus);
+        if (!estadosEnIngles.includes(char.status)) return false;
+      }
+      // Búsqueda por nombre (case-insensitive)
+      if (searchText.trim()) {
+        const searchLower = searchText.trim().toLowerCase();
+        if (!char.name.toLowerCase().includes(searchLower)) return false;
+      }
+      return true;
+    });
+  };
+
+  const filteredCharacters = applyMultipleFilters(
+    applyFavoritesFilter(allCharacters),
+  );
+
+  // --- Paginación local (3 personajes por página) ---
+  // Ambas columnas comparten los mismos datos pero con paginación independiente
+  const paginatedLeft = filteredCharacters.slice(
     (pageLeft - 1) * ITEMS_PER_PAGE,
-    pageLeft * ITEMS_PER_PAGE
+    pageLeft * ITEMS_PER_PAGE,
   );
-  const paginatedRight = filteredRight.slice(
+  const paginatedRight = filteredCharacters.slice(
     (pageRight - 1) * ITEMS_PER_PAGE,
-    pageRight * ITEMS_PER_PAGE
+    pageRight * ITEMS_PER_PAGE,
   );
 
-  const totalPagesLeft = Math.ceil(filteredLeft.length / ITEMS_PER_PAGE);
-  const totalPagesRight = Math.ceil(filteredRight.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(filteredCharacters.length / ITEMS_PER_PAGE);
+
+  // Para compatibilidad con el componente existente
+  const filteredLeft = filteredCharacters;
+  const filteredRight = filteredCharacters;
+  const charactersLeft = paginatedLeft;
+  const charactersRight = paginatedRight;
+  const totalPagesLeft = totalPages;
+  const totalPagesRight = totalPages;
 
   // --- Manejo de filtros ---
   const removeFiltro = (tipo: keyof Filtros, valor: string) => {
@@ -154,39 +238,31 @@ export const useCharacters = () => {
 
   // Cuando se selecciona un personaje en la izquierda
   useEffect(() => {
-    if (selectedLeftCard) {
-      const char = charactersLeft.find((c) => c.id === selectedLeftCard);
-      if (char) {
-        Promise.all(
-          char.episode.map((epUrl) =>
-            fetch(epUrl)
-              .then((res) => res.json())
-              .then((ep) => ({ nombre: ep.name, codigo: ep.episode }))
-          )
-        ).then(setEpisodesLeft);
-      }
+    if (selectedLeftCard && allEpisodes.length > 0) {
+      // Filtrar episodios localmente en lugar de hacer peticiones HTTP
+      const filteredEpisodes = filterEpisodesByCharacter(
+        allEpisodes,
+        selectedLeftCard,
+      );
+      setEpisodesLeft(filteredEpisodes);
     } else {
       setEpisodesLeft([]);
     }
-  }, [selectedLeftCard, charactersLeft]);
+  }, [selectedLeftCard, allEpisodes]);
 
   // Cuando se selecciona un personaje en la derecha
   useEffect(() => {
-    if (selectedRightCard) {
-      const char = charactersRight.find((c) => c.id === selectedRightCard);
-      if (char) {
-        Promise.all(
-          char.episode.map((epUrl) =>
-            fetch(epUrl)
-              .then((res) => res.json())
-              .then((ep) => ({ nombre: ep.name, codigo: ep.episode }))
-          )
-        ).then(setEpisodesRight);
-      }
+    if (selectedRightCard && allEpisodes.length > 0) {
+      // Filtrar episodios localmente en lugar de hacer peticiones HTTP
+      const filteredEpisodes = filterEpisodesByCharacter(
+        allEpisodes,
+        selectedRightCard,
+      );
+      setEpisodesRight(filteredEpisodes);
     } else {
       setEpisodesRight([]);
     }
-  }, [selectedRightCard, charactersRight]);
+  }, [selectedRightCard, allEpisodes]);
 
   return {
     // Redux
@@ -195,6 +271,7 @@ export const useCharacters = () => {
     dispatch,
 
     // States
+    allCharacters,
     charactersLeft,
     charactersRight,
     pageLeft,
@@ -202,6 +279,7 @@ export const useCharacters = () => {
     pageRight,
     setPageRight,
     loading,
+    error,
 
     selectedCharacter,
     setSelectedCharacter,
@@ -217,6 +295,12 @@ export const useCharacters = () => {
     episodes,
     episodesLeft,
     episodesRight,
+    loadingEpisodes: loadingAllEpisodes,
+    loadingEpisodesLeft: false,
+    loadingEpisodesRight: false,
+    progressEpisodes: { loaded: 0, total: 0 },
+    progressLeft: { loaded: 0, total: 0 },
+    progressRight: { loaded: 0, total: 0 },
 
     activo,
     setActivo,
