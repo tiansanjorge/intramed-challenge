@@ -1,6 +1,6 @@
 "use client";
 
-import { X, ArrowLeft, MoreVertical } from "lucide-react";
+import { X, ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 
 type ModalProps = {
@@ -38,7 +38,7 @@ export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
       {/* Backdrop con blur y efecto animado */}
       <div
         className={`absolute inset-0 transition-all duration-500 ease-out
-          ${isAnimating ? "backdrop-blur-md bg-black/60" : "backdrop-blur-none bg-black/0"}
+          ${isAnimating ? "backdrop-blur-md bg-black/75" : "backdrop-blur-none bg-black/0"}
         `}
         onClick={onClose}
       >
@@ -63,7 +63,7 @@ export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
       <div
         className={`bg-white/95 sm:rounded-2xl w-full sm:max-w-[600px] relative 
           sm:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] shadow-2xl
-          sm:border border-white/20
+          sm:border-2 border-[#B6DA8B]
           min-h-[100vh] sm:min-h-0 sm:max-h-[85vh] overflow-hidden
           transition-all duration-500 ease-out
           ${
@@ -78,35 +78,25 @@ export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
         <button
           aria-label="Cerrar modal"
           onClick={onClose}
-          className="hidden sm:flex bg-white/90 backdrop-blur-sm p-2 rounded-full absolute top-4 right-4 
-            text-gray-500 hover:text-gray-700 hover:bg-white active:scale-90
-            transition-all duration-200 ease-in-out z-10 
+          className="hidden sm:flex bg-white backdrop-blur-sm p-2 rounded-full absolute top-4 right-4 
+            text-gray-600 hover:text-gray-800 hover:bg-gray-50 active:scale-90
+            transition-all duration-300 ease-in-out z-10 
             shadow-lg hover:shadow-xl hover:rotate-90
-            border border-gray-100"
+            border border-gray-200 hover:border-gray-300"
         >
           <X className="w-5 h-5" />
         </button>
-
-        <MoreVertical
-          className="hidden sm:flex absolute top-[165px] right-5 w-6 h-6 text-[#808C73] cursor-pointer 
-          transition-all duration-300 hover:text-[#354E18] hover:scale-110"
-        />
 
         {/* Botón volver en móvil con backdrop */}
         <button
           onClick={onClose}
           className="sm:hidden absolute top-3 left-3 rounded-full w-10 h-10 flex items-center justify-center 
-            bg-black/20 backdrop-blur-md shadow-lg z-50
+            bg-white/95 backdrop-blur-md shadow-lg z-50
             transform transition-all duration-300 ease-in-out
-            hover:bg-black/30 active:scale-90 active:bg-black/40"
+            hover:bg-white active:scale-90 border border-gray-200"
         >
-          <ArrowLeft className="w-8 h-8 text-white drop-shadow-lg" />
+          <ArrowLeft className="w-6 h-6 text-gray-700 drop-shadow-sm" />
         </button>
-
-        <MoreVertical
-          className="sm:hidden absolute top-4 right-3 w-8 h-8 text-white cursor-pointer z-50
-          transition-all duration-300 hover:scale-110"
-        />
 
         {/* Contenedor interno con scroll */}
         <div className="h-full sm:max-h-[85vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300">

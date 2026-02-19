@@ -126,6 +126,119 @@
   }
 }
 
+/* Partículas pequeñas flotantes desde el botón */
+@keyframes float-particle-up {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(var(--tx), -400px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+@keyframes float-particle-up-left {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-300px, -300px) scale(0.3);
+    opacity: 0;
+  }
+}
+
+@keyframes float-particle-up-right {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(300px, -300px) scale(0.3);
+    opacity: 0;
+  }
+}
+
+@keyframes float-particle-left {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-400px, var(--ty)) scale(0.4);
+    opacity: 0;
+  }
+}
+
+@keyframes float-particle-right {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(400px, var(--ty)) scale(0.4);
+    opacity: 0;
+  }
+}
+
+@keyframes float-particle-down {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(var(--tx), 400px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+@keyframes float-particle-down-left {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-300px, 300px) scale(0.3);
+    opacity: 0;
+  }
+}
+
+@keyframes float-particle-down-right {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(300px, 300px) scale(0.3);
+    opacity: 0;
+  }
+}
+
 @keyframes shimmer {
   0% {
     background-position: -1000px 0;
@@ -171,6 +284,39 @@
   animation: particle-2 25s ease-in-out infinite;
 }
 
+/* Clases de animación para partículas flotantes */
+.animate-float-particle-up {
+  animation: float-particle-up 4s ease-out infinite;
+}
+
+.animate-float-particle-up-left {
+  animation: float-particle-up-left 5s ease-out infinite;
+}
+
+.animate-float-particle-up-right {
+  animation: float-particle-up-right 5s ease-out infinite;
+}
+
+.animate-float-particle-left {
+  animation: float-particle-left 4.5s ease-out infinite;
+}
+
+.animate-float-particle-right {
+  animation: float-particle-right 4.5s ease-out infinite;
+}
+
+.animate-float-particle-down {
+  animation: float-particle-down 4s ease-out infinite;
+}
+
+.animate-float-particle-down-left {
+  animation: float-particle-down-left 5s ease-out infinite;
+}
+
+.animate-float-particle-down-right {
+  animation: float-particle-down-right 5s ease-out infinite;
+}
+
 .animate-shimmer {
   animation: shimmer 3s infinite;
   background: linear-gradient(
@@ -184,7 +330,7 @@
 
 /* Glassmorphism effect */
 .glass-effect {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.14);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);

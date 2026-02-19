@@ -49,7 +49,7 @@ export const CharacterColumn = ({
   otherSideSelectedId = null,
 }: Props) => {
   return (
-    <div>
+    <div className="lg:mx-0 mx-auto max-w-[31.75rem]">
       {/* Título + paginación */}
       <div className="flex items-center justify-between mb-2">
         <h2 className="font-bold">{title}</h2>
@@ -68,7 +68,7 @@ export const CharacterColumn = ({
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
-            <span className="text-sm font-semibold">
+            <span className="text-sm font-semibold min-w-[3.5rem] text-center">
               {page} / {totalPages || 1}
             </span>
             <button
@@ -97,7 +97,7 @@ export const CharacterColumn = ({
             return (
               <div
                 key={char.id}
-                className="relative mb-4 rounded-lg max-w-[31.75rem]"
+                className="relative mb-4 rounded-lg"
                 onMouseLeave={() => setOverlayCard(null)}
               >
                 <Card
@@ -131,7 +131,7 @@ export const CharacterColumn = ({
 
                 {/* Overlay */}
                 <div
-                  className={`absolute inset-0 flex items-center justify-center gap-4 rounded-lg max-w-[31.75rem]
+                  className={`absolute inset-0 flex items-center justify-center gap-4 rounded-lg
                   bg-black bg-opacity-60 transition-opacity duration-500 ease-in-out
                   ${
                     overlayCard === char.id
@@ -166,7 +166,7 @@ export const CharacterColumn = ({
                           hover:bg-red-700 hover:shadow-lg hover:scale-105
                           active:scale-95"
                       >
-                        Deseleccionar
+                        Quitar
                       </button>
                     ) : (
                       <button
@@ -176,7 +176,7 @@ export const CharacterColumn = ({
                           hover:bg-[#354E18] hover:text-[#B6DA8B] hover:shadow-lg hover:scale-105
                           active:scale-95"
                       >
-                        Seleccionar
+                        Elegir
                       </button>
                     )}
                   </div>

@@ -179,7 +179,7 @@ const CharacterDetail = ({
 
       <div className="pt-14 sm:pt-4 px-5 pb-5">
         <div className="text-center sm:text-left sm:ml-40 animate-stagger">
-          <div className="flex items-center justify-center sm:justify-start gap-3">
+          <div className="flex items-center justify-center sm:justify-start gap-3 relative">
             <h2 className="text-2xl font-semibold">{nombre}</h2>
             <button
               onClick={onToggleFavorito}
@@ -188,6 +188,28 @@ const CharacterDetail = ({
                 drop-shadow-sm hover:drop-shadow-md"
             >
               <Image src={starSrc} alt="favorito" width={20} height={20} />
+            </button>
+            <button
+              className="absolute right-0 sm:right-auto sm:relative ml-auto text-[#808C73] cursor-pointer 
+              transition-all duration-300 hover:text-[#354E18] hover:scale-110"
+              aria-label="Más opciones"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-6 h-6"
+              >
+                <circle cx="12" cy="12" r="1" />
+                <circle cx="12" cy="5" r="1" />
+                <circle cx="12" cy="19" r="1" />
+              </svg>
             </button>
           </div>
           <p className="text-gray-400 text-sm font-semibold">{especie}</p>

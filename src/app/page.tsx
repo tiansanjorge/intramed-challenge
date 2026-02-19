@@ -67,12 +67,12 @@ export default function Home() {
         }}
       ></div>
 
-      <div className="relative z-10 flex items-center justify-center min-h-screen px-4 py-4">
+      <div className="relative z-10 flex items-center justify-center min-h-screen px-4 pt-4">
         <div className="w-full max-w-4xl">
           {/* Main content card */}
           <div className="p-6 md:p-8">
-            {/* Logo with float animation */}
-            <div className="animate-float animate-scale-in">
+            {/* Logo with float animation - z-index superior para estar adelante de las partículas */}
+            <div className="animate-float animate-scale-in relative z-20">
               <img
                 src="/brand-logo.svg"
                 alt="Rick and Morty logo"
@@ -81,7 +81,182 @@ export default function Home() {
             </div>
 
             {/* CTA Button with glow effect */}
-            <div className="animate-scale-in delay-100 text-center mt-8">
+            <div className="animate-scale-in delay-100 text-center mt-2 mb-20 relative z-10">
+              {/* Partículas flotantes pequeñas que salen desde el botón - z-index bajo para estar detrás del logo */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
+                {/* Partículas verdes hacia arriba */}
+                <div
+                  className="absolute w-2 h-2 bg-lime-400 rounded-full blur-sm animate-float-particle-up"
+                  style={{ animationDelay: "0s" }}
+                ></div>
+                <div
+                  className="absolute w-1.5 h-1.5 bg-lime-300 rounded-full blur-sm animate-float-particle-up"
+                  style={{ animationDelay: "1s" }}
+                ></div>
+                <div
+                  className="absolute w-2.5 h-2.5 bg-lime-500 rounded-full blur-sm animate-float-particle-up"
+                  style={{ animationDelay: "2s" }}
+                ></div>
+
+                {/* Partículas celestes hacia arriba */}
+                <div
+                  className="absolute w-2 h-2 bg-cyan-400 rounded-full blur-sm animate-float-particle-up"
+                  style={
+                    {
+                      animationDelay: "0.5s",
+                      "--tx": "-20px",
+                    } as React.CSSProperties
+                  }
+                ></div>
+                <div
+                  className="absolute w-1.5 h-1.5 bg-cyan-300 rounded-full blur-sm animate-float-particle-up"
+                  style={
+                    {
+                      animationDelay: "1.5s",
+                      "--tx": "30px",
+                    } as React.CSSProperties
+                  }
+                ></div>
+                <div
+                  className="absolute w-2 h-2 bg-cyan-500 rounded-full blur-sm animate-float-particle-up"
+                  style={
+                    {
+                      animationDelay: "2.5s",
+                      "--tx": "-40px",
+                    } as React.CSSProperties
+                  }
+                ></div>
+
+                {/* Partículas diagonales izquierda */}
+                <div
+                  className="absolute w-2 h-2 bg-lime-400 rounded-full blur-sm animate-float-particle-up-left"
+                  style={{ animationDelay: "0.3s" }}
+                ></div>
+                <div
+                  className="absolute w-1.5 h-1.5 bg-cyan-400 rounded-full blur-sm animate-float-particle-up-left"
+                  style={{ animationDelay: "1.8s" }}
+                ></div>
+                <div
+                  className="absolute w-2 h-2 bg-lime-300 rounded-full blur-sm animate-float-particle-up-left"
+                  style={{ animationDelay: "3.2s" }}
+                ></div>
+
+                {/* Partículas diagonales derecha */}
+                <div
+                  className="absolute w-2 h-2 bg-cyan-400 rounded-full blur-sm animate-float-particle-up-right"
+                  style={{ animationDelay: "0.7s" }}
+                ></div>
+                <div
+                  className="absolute w-1.5 h-1.5 bg-lime-400 rounded-full blur-sm animate-float-particle-up-right"
+                  style={{ animationDelay: "2.2s" }}
+                ></div>
+                <div
+                  className="absolute w-2 h-2 bg-cyan-300 rounded-full blur-sm animate-float-particle-up-right"
+                  style={{ animationDelay: "3.7s" }}
+                ></div>
+
+                {/* Partículas laterales izquierda */}
+                <div
+                  className="absolute w-1.5 h-1.5 bg-lime-400 rounded-full blur-sm animate-float-particle-left"
+                  style={
+                    {
+                      animationDelay: "0.4s",
+                      "--ty": "-50px",
+                    } as React.CSSProperties
+                  }
+                ></div>
+                <div
+                  className="absolute w-2 h-2 bg-cyan-400 rounded-full blur-sm animate-float-particle-left"
+                  style={
+                    {
+                      animationDelay: "1.9s",
+                      "--ty": "40px",
+                    } as React.CSSProperties
+                  }
+                ></div>
+
+                {/* Partículas laterales derecha */}
+                <div
+                  className="absolute w-1.5 h-1.5 bg-cyan-300 rounded-full blur-sm animate-float-particle-right"
+                  style={
+                    {
+                      animationDelay: "0.9s",
+                      "--ty": "-30px",
+                    } as React.CSSProperties
+                  }
+                ></div>
+                <div
+                  className="absolute w-2 h-2 bg-lime-400 rounded-full blur-sm animate-float-particle-right"
+                  style={
+                    {
+                      animationDelay: "2.4s",
+                      "--ty": "50px",
+                    } as React.CSSProperties
+                  }
+                ></div>
+
+                {/* Partículas hacia abajo */}
+                <div
+                  className="absolute w-2 h-2 bg-lime-400 rounded-full blur-sm animate-float-particle-down"
+                  style={{ animationDelay: "0.6s" }}
+                ></div>
+                <div
+                  className="absolute w-1.5 h-1.5 bg-cyan-400 rounded-full blur-sm animate-float-particle-down"
+                  style={
+                    {
+                      animationDelay: "1.3s",
+                      "--tx": "20px",
+                    } as React.CSSProperties
+                  }
+                ></div>
+                <div
+                  className="absolute w-2 h-2 bg-lime-300 rounded-full blur-sm animate-float-particle-down"
+                  style={
+                    {
+                      animationDelay: "2.7s",
+                      "--tx": "-30px",
+                    } as React.CSSProperties
+                  }
+                ></div>
+                <div
+                  className="absolute w-1.5 h-1.5 bg-cyan-300 rounded-full blur-sm animate-float-particle-down"
+                  style={
+                    {
+                      animationDelay: "3.5s",
+                      "--tx": "40px",
+                    } as React.CSSProperties
+                  }
+                ></div>
+
+                {/* Partículas diagonales hacia abajo izquierda */}
+                <div
+                  className="absolute w-2 h-2 bg-cyan-400 rounded-full blur-sm animate-float-particle-down-left"
+                  style={{ animationDelay: "0.8s" }}
+                ></div>
+                <div
+                  className="absolute w-1.5 h-1.5 bg-lime-400 rounded-full blur-sm animate-float-particle-down-left"
+                  style={{ animationDelay: "2.1s" }}
+                ></div>
+                <div
+                  className="absolute w-2 h-2 bg-cyan-300 rounded-full blur-sm animate-float-particle-down-left"
+                  style={{ animationDelay: "3.6s" }}
+                ></div>
+
+                {/* Partículas diagonales hacia abajo derecha */}
+                <div
+                  className="absolute w-2 h-2 bg-lime-400 rounded-full blur-sm animate-float-particle-down-right"
+                  style={{ animationDelay: "1.1s" }}
+                ></div>
+                <div
+                  className="absolute w-1.5 h-1.5 bg-cyan-400 rounded-full blur-sm animate-float-particle-down-right"
+                  style={{ animationDelay: "2.6s" }}
+                ></div>
+                <div
+                  className="absolute w-2 h-2 bg-lime-300 rounded-full blur-sm animate-float-particle-down-right"
+                  style={{ animationDelay: "4.1s" }}
+                ></div>
+              </div>
+
               <button
                 className="group relative bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-400 hover:to-lime-500 text-black font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 animate-pulse-glow overflow-hidden"
                 onClick={() => router.push("/characters")}
@@ -100,17 +275,14 @@ export default function Home() {
             </div>
 
             {/* Features grid */}
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 animate-slide-in-up delay-200">
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-slide-in-up delay-200">
               <div className="glass-effect rounded-xl p-4 border border-lime-500/20 hover:border-lime-500/50 transition-all duration-300 hover:scale-105 group">
-                <Search className="w-8 h-8 text-lime-400 mb-2 mx-auto group-hover:scale-110 transition-transform" />
+                <div className="flex justify-center items-center gap-2 mb-2">
+                  <Search className="w-7 h-7 text-lime-400 group-hover:scale-110 transition-transform" />
+                  <Filter className="w-7 h-7 text-cyan-400 group-hover:scale-110 transition-transform" />
+                </div>
                 <p className="text-sm font-semibold text-gray-200 text-center">
-                  Búsqueda Avanzada
-                </p>
-              </div>
-              <div className="glass-effect rounded-xl p-4 border border-cyan-500/20 hover:border-cyan-500/50 transition-all duration-300 hover:scale-105 group">
-                <Filter className="w-8 h-8 text-cyan-400 mb-2 mx-auto group-hover:scale-110 transition-transform" />
-                <p className="text-sm font-semibold text-gray-200 text-center">
-                  Filtros Dinámicos
+                  Filtros y Búsqueda Avanzada
                 </p>
               </div>
               <div className="glass-effect rounded-xl p-4 border border-pink-500/20 hover:border-pink-500/50 transition-all duration-300 hover:scale-105 group">
@@ -138,9 +310,6 @@ export default function Home() {
                 </span>
                 <span className="glass-effect px-4 py-2 rounded-full border border-white/10 text-gray-300 hover:border-lime-500/50 transition-all">
                   ⚡ UX Intuitiva
-                </span>
-                <span className="glass-effect px-4 py-2 rounded-full border border-white/10 text-gray-300 hover:border-lime-500/50 transition-all">
-                  📊 Vista Detalle
                 </span>
               </div>
             </div>

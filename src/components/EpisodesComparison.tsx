@@ -82,7 +82,7 @@ export const EpisodesComparison = ({
             </p>
           </div>
           {/* Barra de progreso */}
-          <div className="w-full max-w-xs bg-white/20 rounded-full h-2.5 overflow-hidden">
+          <div className="w-full max-w-xs bg-white/30 rounded-full h-2.5 overflow-hidden">
             <div
               className="bg-gradient-to-r from-[#8BC547] to-[#B6DA8B] h-full transition-all duration-300 ease-out shadow-lg"
               style={{ width: `${percentage}%` }}
@@ -104,7 +104,7 @@ export const EpisodesComparison = ({
           {episodes.map((ep, index) => (
             <li
               key={ep.codigo}
-              className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm flex justify-between items-center
+              className="backdrop-blur-sm bg-white/10 border border-white/10 rounded-lg px-4 py-3 text-sm flex justify-between items-center
                 transform transition-all duration-300 ease-in-out
                 hover:border-[#8BC547] hover:bg-[#8BC547]/10 hover:shadow-lg hover:scale-[1.02]
                 animate-fadeIn group"
@@ -113,7 +113,7 @@ export const EpisodesComparison = ({
               <span className="font-medium text-white group-hover:text-[#B6DA8B] transition-colors">
                 {ep.nombre}
               </span>
-              <span className="text-gray-400 text-xs font-mono bg-black/20 px-2 py-1 rounded group-hover:bg-[#8BC547]/20 group-hover:text-[#B6DA8B] transition-all">
+              <span className="text-gray-400 text-xs font-mono bg-black/30 px-2 py-1 rounded group-hover:bg-[#8BC547]/20 group-hover:text-[#B6DA8B] transition-all">
                 {ep.codigo}
               </span>
             </li>
@@ -150,9 +150,9 @@ export const EpisodesComparison = ({
         </div>
 
         {/* Grid: 2 columnas en desktop para los personajes */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-6 mb-8">
           {/* Episodios Personaje 1 */}
-          <div className="backdrop-blur-md bg-white/10 rounded-xl shadow-2xl p-6 border border-white/20 transform transition-all duration-300 hover:bg-white/15 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(139,197,71,0.3)]">
+          <div className="backdrop-blur-md bg-white/20 rounded-xl shadow-2xl p-6 border border-white/20 transform transition-all duration-300 hover:bg-white/25 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(139,197,71,0.3)]">
             <div className="flex items-center gap-4 mb-5 pb-4 border-b border-white/20">
               <div className="relative">
                 <Image
@@ -199,8 +199,18 @@ export const EpisodesComparison = ({
             </div>
           </div>
 
+          {/* Separador en mobile */}
+          <div className="lg:hidden relative h-8 flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t-2 border-[#8BC547]/30"></div>
+            </div>
+            <div className="relative px-4 bg-gradient-to-r from-transparent via-black/80 to-transparent">
+              <span className="text-[#B6DA8B] text-sm font-semibold">VS</span>
+            </div>
+          </div>
+
           {/* Episodios Personaje 2 */}
-          <div className="backdrop-blur-md bg-white/10 rounded-xl shadow-2xl p-6 border border-white/20 transform transition-all duration-300 hover:bg-white/15 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(139,197,71,0.3)]">
+          <div className="backdrop-blur-md bg-white/20 rounded-xl shadow-2xl p-6 border border-white/20 transform transition-all duration-300 hover:bg-white/25 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(139,197,71,0.3)]">
             <div className="flex items-center gap-4 mb-5 pb-4 border-b border-white/20">
               <div className="relative">
                 <Image
@@ -250,27 +260,9 @@ export const EpisodesComparison = ({
 
         {/* Episodios Compartidos - Full width abajo */}
         <div className="backdrop-blur-lg bg-gradient-to-r from-[#8BC547]/20 to-[#B6DA8B]/20 rounded-xl shadow-2xl p-6 md:p-8 border-2 border-[#8BC547]/30 transform transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_40px_rgba(139,197,71,0.4)]">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6 pb-5 border-b border-[#8BC547]/30">
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <Image
-                  src={imageLeft}
-                  alt={nameLeft}
-                  width={48}
-                  height={48}
-                  className={`rounded-full object-cover border-2 border-[#8BC547] shadow-lg
-                    transform transition-all duration-300 ease-in-out
-                    hover:scale-110 ${onLeftClick ? "cursor-pointer" : ""}`}
-                  onClick={onLeftClick}
-                />
-                <div
-                  className={`absolute -bottom-1 -right-1 w-4 h-4 ${getStatusColor(statusLeft)} rounded-full border-2 border-white`}
-                ></div>
-              </div>
-              <div className="hidden md:block w-16 h-0.5 bg-gradient-to-r from-[#8BC547] to-transparent"></div>
-            </div>
-
-            <div className="text-center">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-4 mb-6 pb-5 border-b border-[#8BC547]/30">
+            {/* Título - Arriba en mobile, centro en desktop */}
+            <div className="text-center order-1 lg:order-2 w-full lg:w-auto">
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-1">
                 Episodios Compartidos
               </h3>
@@ -281,22 +273,46 @@ export const EpisodesComparison = ({
               </p>
             </div>
 
-            <div className="flex items-center gap-3">
-              <div className="hidden md:block w-16 h-0.5 bg-gradient-to-l from-[#8BC547] to-transparent"></div>
-              <div className="relative">
-                <Image
-                  src={imageRight}
-                  alt={nameRight}
-                  width={48}
-                  height={48}
-                  className={`rounded-full object-cover border-2 border-[#8BC547] shadow-lg
-                    transform transition-all duration-300 ease-in-out
-                    hover:scale-110 ${onRightClick ? "cursor-pointer" : ""}`}
-                  onClick={onRightClick}
-                />
-                <div
-                  className={`absolute -bottom-1 -right-1 w-4 h-4 ${getStatusColor(statusRight)} rounded-full border-2 border-white`}
-                ></div>
+            {/* Contenedor de ambas imágenes - juntas en mobile, separadas en desktop */}
+            <div className="flex gap-6 items-center order-2 lg:contents">
+              {/* Imagen izquierda */}
+              <div className="flex items-center gap-3 lg:order-1">
+                <div className="relative">
+                  <Image
+                    src={imageLeft}
+                    alt={nameLeft}
+                    width={48}
+                    height={48}
+                    className={`rounded-full object-cover border-2 border-[#8BC547] shadow-lg
+                      transform transition-all duration-300 ease-in-out
+                      hover:scale-110 ${onLeftClick ? "cursor-pointer" : ""}`}
+                    onClick={onLeftClick}
+                  />
+                  <div
+                    className={`absolute -bottom-1 -right-1 w-4 h-4 ${getStatusColor(statusLeft)} rounded-full border-2 border-white`}
+                  ></div>
+                </div>
+                <div className="hidden lg:block w-16 h-0.5 bg-gradient-to-r from-[#8BC547] to-transparent"></div>
+              </div>
+
+              {/* Imagen derecha */}
+              <div className="flex items-center gap-3 lg:order-3">
+                <div className="hidden lg:block w-16 h-0.5 bg-gradient-to-l from-[#8BC547] to-transparent"></div>
+                <div className="relative">
+                  <Image
+                    src={imageRight}
+                    alt={nameRight}
+                    width={48}
+                    height={48}
+                    className={`rounded-full object-cover border-2 border-[#8BC547] shadow-lg
+                      transform transition-all duration-300 ease-in-out
+                      hover:scale-110 ${onRightClick ? "cursor-pointer" : ""}`}
+                    onClick={onRightClick}
+                  />
+                  <div
+                    className={`absolute -bottom-1 -right-1 w-4 h-4 ${getStatusColor(statusRight)} rounded-full border-2 border-white`}
+                  ></div>
+                </div>
               </div>
             </div>
           </div>

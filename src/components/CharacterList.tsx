@@ -124,7 +124,7 @@ const CharacterList = ({
   return (
     <div className="relative">
       {/* Título mobile con mejor contraste */}
-      <div className="md:hidden mt-6 mb-4 text-center">
+      <div className="lg:hidden mt-6 mb-4 text-center">
         <h2 className="text-3xl font-bold bg-gradient-to-r from-[#354E18] to-[#5a7f2e] bg-clip-text text-transparent drop-shadow-sm">
           Selección de Personajes
         </h2>
@@ -180,7 +180,7 @@ const CharacterList = ({
             </div>
 
             {/* Título centrado absolutamente */}
-            <h2 className="hidden md:block absolute left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center bg-gradient-to-r from-[#354E18] to-[#5a7f2e] bg-clip-text text-transparent drop-shadow-sm pointer-events-none">
+            <h2 className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center bg-gradient-to-r from-[#354E18] to-[#5a7f2e] bg-clip-text text-transparent drop-shadow-sm pointer-events-none">
               Selección de Personajes
             </h2>
 
@@ -269,7 +269,7 @@ const CharacterList = ({
               No hay personajes para mostrar.
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-6">
               {/* Columna izquierda */}
               <CharacterColumn
                 title="Primer Personaje"
@@ -287,8 +287,20 @@ const CharacterList = ({
                 otherSideSelectedId={selectedRightCard}
               />
 
-              {/* Divisor con efecto mejorado */}
-              <div className="hidden md:block relative">
+              {/* Separador en mobile */}
+              <div className="lg:hidden relative h-12 flex items-center justify-center my-4">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t-2 border-dashed border-[#354E18]/30"></div>
+                </div>
+                <div className="relative px-4 bg-white/80 backdrop-blur-sm rounded-full">
+                  <span className="text-[#354E18] text-sm font-semibold">
+                    VS
+                  </span>
+                </div>
+              </div>
+
+              {/* Divisor con efecto mejorado - Desktop */}
+              <div className="hidden lg:block relative">
                 <div className="absolute inset-0 left-1/2 -translate-x-1/2 border-l-2 border-dashed border-[#354e1859]"></div>
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 bg-gradient-to-br from-[#8BC547] to-[#B6DA8B] rounded-full shadow-lg"></div>
                 <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-3 bg-gradient-to-br from-[#B6DA8B] to-[#8BC547] rounded-full shadow-lg"></div>
