@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import {
   Check,
   Zap,
@@ -15,6 +16,7 @@ import {
 export default function Home() {
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
+  const [logoLoaded, setLogoLoaded] = useState(false);
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 640);
@@ -72,11 +74,25 @@ export default function Home() {
           {/* Main content card */}
           <div className="p-6 md:p-8">
             {/* Logo with float animation - z-index superior para estar adelante de las partículas */}
-            <div className="animate-float animate-scale-in relative z-20">
-              <img
-                src="/brand-logo.svg"
+            <div className="animate-float animate-scale-in relative z-20 max-w-md mx-auto h-[177px]">
+              {/* Skeleton placeholder sutil */}
+              {!logoLoaded && (
+                <div
+                  className="absolute inset-0 bg-gradient-to-r from-lime-400/10 via-lime-400/20 to-lime-400/10 
+                  animate-pulse rounded-lg blur-sm"
+                />
+              )}
+
+              <Image
+                src="/logo.png"
                 alt="Rick and Morty logo"
-                className="mx-auto max-w-md w-full drop-shadow-2xl"
+                width={500}
+                height={177}
+                priority
+                className={`drop-shadow-2xl transition-opacity duration-300 ${
+                  logoLoaded ? "opacity-100" : "opacity-0"
+                }`}
+                onLoad={() => setLogoLoaded(true)}
               />
             </div>
 

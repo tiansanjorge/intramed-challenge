@@ -4,11 +4,14 @@ import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "@/store";
 import { setSearchText } from "@/store/searchSlice";
+import Image from "next/image";
+import { useState } from "react";
 
 export const Header = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const searchText = useSelector((state: RootState) => state.search.searchText);
+  const [logoLoaded, setLogoLoaded] = useState(false);
 
   return (
     <header
@@ -30,16 +33,31 @@ export const Header = () => {
       <div className="absolute inset-0"></div>
 
       <div className="relative z-10 text-center w-full sm:max-w-[75%] ">
-        {/* Logo */}
-        <img
-          src={"/brand-logo.svg"}
-          alt="Rick and Morty"
-          className="mx-auto mb-6 w-72 cursor-pointer 
-            transform transition-all duration-300 ease-in-out
-            hover:scale-105 hover:drop-shadow-[0_0_20px_rgba(139,197,71,0.4)]
-            active:scale-95"
-          onClick={() => router.push("/")}
-        />
+        {/* Logo optimizado con carga suave */}
+        <div className="relative mx-auto mb-6 w-72 h-[127px]">
+          {/* Skeleton placeholder sutil */}
+          {!logoLoaded && (
+            <div
+              className="absolute inset-0 bg-gradient-to-r from-lime-400/10 via-lime-400/20 to-lime-400/10 
+              animate-pulse rounded-lg blur-sm"
+            />
+          )}
+
+          <Image
+            src="/logo.png"
+            alt="Rick and Morty"
+            width={288}
+            height={127}
+            priority
+            className={`cursor-pointer 
+              transform transition-all duration-300 ease-in-out
+              hover:scale-105 hover:drop-shadow-[0_0_20px_rgba(139,197,71,0.4)]
+              active:scale-95
+              ${logoLoaded ? "opacity-100" : "opacity-0"}`}
+            onClick={() => router.push("/")}
+            onLoad={() => setLogoLoaded(true)}
+          />
+        </div>
 
         {/* Input de búsqueda */}
         <div
