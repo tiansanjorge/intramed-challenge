@@ -3,30 +3,21 @@
 import Image from "next/image";
 import React from "react";
 import { translateSpecies } from "@/utils/translations";
+import { Character } from "@/types/Character";
 
 type Estado = "Vivo" | "Muerto" | "Desconocido";
-
-export interface Character {
-  id: number;
-  name: string;
-  species: string;
-  image: string;
-  location: { name: string; url: string };
-  origin: { name: string; url: string };
-  status: "Alive" | "Dead" | "unknown";
-}
 
 export interface CardProps {
   character: Character;
   esFavorito?: boolean;
-  onClick?: () => void;
-  onToggleFavorito?: () => void;
+  onClick?: (id: number) => void;
+  onToggleFavorito?: (character: Character) => void;
   disabled?: boolean;
   overlayVisible?: boolean;
   isSelected?: boolean;
 }
 
-export const Card: React.FC<CardProps> = ({
+export const Card = React.memo(function Card({
   character,
   esFavorito = false,
   onClick,
@@ -34,7 +25,7 @@ export const Card: React.FC<CardProps> = ({
   disabled = false,
   overlayVisible = false,
   isSelected = false,
-}) => {
+}: CardProps) {
   const estadoTraducido: Estado =
     character.status === "Alive"
       ? "Vivo"
@@ -64,21 +55,21 @@ export const Card: React.FC<CardProps> = ({
               ? "cursor-pointer"
               : "hover:-translate-y-1 cursor-pointer"
         }`}
-      onClick={disabled ? undefined : onClick}
+      onClick={disabled ? undefined : () => onClick?.(character.id)}
     >
       {/* Imagen + Estrella */}
-      <div className="relative flex-shrink-0">
+      <div className="relative flex-shrink-0 w-28 h-28 sm:w-36 sm:h-36">
         <Image
           src={character.image}
           alt={character.name}
-          width={300}
-          height={300}
-          className="w-28 h-28 sm:w-36 sm:h-36 object-cover object-center rounded-l-lg"
+          fill
+          sizes="(max-width: 640px) 112px, 144px"
+          className="object-cover object-center rounded-l-lg"
         />
         <button
           onClick={(e) => {
             e.stopPropagation();
-            onToggleFavorito?.();
+            onToggleFavorito?.(character);
           }}
           className={`absolute top-2 left-2
             ${esFavorito ? "bg-lime-200" : "bg-gray-50"} 
@@ -147,4 +138,4 @@ export const Card: React.FC<CardProps> = ({
       </div>
     </div>
   );
-};
+});

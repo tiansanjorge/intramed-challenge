@@ -12,6 +12,7 @@ import {
   reverseTranslateGender,
   reverseTranslateSpecies,
 } from "@/utils/translations";
+import { Character } from "@/types/Character";
 
 export type EpisodeData = {
   id: number;
@@ -21,18 +22,6 @@ export type EpisodeData = {
   characters: string[];
   url: string;
   created: string;
-};
-
-export type Character = {
-  id: number;
-  name: string;
-  species: string;
-  image: string;
-  location: { name: string; url: string };
-  origin: { name: string; url: string };
-  status: "Alive" | "Dead" | "unknown";
-  gender: "Male" | "Female" | "unknown";
-  episode: string[];
 };
 
 export type Filtros = { especie: string[]; estado: string[]; genero: string[] };

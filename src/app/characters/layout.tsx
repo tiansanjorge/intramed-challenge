@@ -29,12 +29,11 @@ export default function CharactersLayout({
       />
 
       {/* Círculos decorativos flotantes */}
-      <div className="absolute top-32 left-10 w-64 h-64 bg-[#8BC547]/10 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute top-32 left-10 w-64 h-64 bg-[#8BC547]/10 rounded-full blur-3xl animate-pulse will-change-transform" />
       <div
-        className="absolute bottom-20 right-10 w-96 h-96 bg-[#B6DA8B]/10 rounded-full blur-3xl animate-pulse"
+        className="absolute bottom-20 right-10 w-96 h-96 bg-[#B6DA8B]/10 rounded-full blur-3xl animate-pulse will-change-transform"
         style={{ animationDelay: "1s" }}
       />
-      <div className="absolute top-1/2 left-1/3 w-48 h-48 bg-[#354E18]/5 rounded-full blur-2xl" />
 
       <Header />
       <main className="flex-grow relative z-10">{children}</main>

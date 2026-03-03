@@ -4,18 +4,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Card } from "./Card";
 import { toggleFavorite } from "@/store/favoritesSlice";
 import type { AppDispatch } from "@/store";
-
-type Character = {
-  id: number;
-  name: string;
-  species: string;
-  image: string;
-  location: { name: string; url: string };
-  origin: { name: string; url: string };
-  status: "Alive" | "Dead" | "unknown";
-  gender: "Male" | "Female" | "unknown";
-  episode: string[];
-};
+import { useCallback, useMemo } from "react";
+import { Character } from "@/types/Character";
 
 interface Props {
   title: string;
@@ -48,6 +38,40 @@ export const CharacterColumn = ({
   setSelectedCharacter,
   otherSideSelectedId = null,
 }: Props) => {
+  const favIds = useMemo(
+    () => new Set(favoritos.map((f) => f.id)),
+    [favoritos],
+  );
+
+  const handleCardClick = useCallback(
+    (id: number) => {
+      setOverlayCard(overlayCard === id ? null : id);
+    },
+    [overlayCard, setOverlayCard],
+  );
+
+  const handleToggleFavorito = useCallback(
+    (char: Character) => {
+      dispatch(
+        toggleFavorite({
+          id: char.id,
+          nombre: char.name,
+          especie: char.species,
+          imagen: char.image,
+          ubicacion: char.location.name,
+          origen: char.origin.name,
+          estado:
+            char.status === "Alive"
+              ? "Vivo"
+              : char.status === "Dead"
+                ? "Muerto"
+                : "Desconocido",
+        }),
+      );
+    },
+    [dispatch],
+  );
+
   return (
     <div className="lg:mx-0 mx-auto max-w-[31.75rem]">
       {/* Título + paginación */}
@@ -97,33 +121,14 @@ export const CharacterColumn = ({
             return (
               <div
                 key={char.id}
-                className="relative mb-4 rounded-lg"
+                className="relative mb-4 rounded-lg h-28 sm:h-36"
                 onMouseLeave={() => setOverlayCard(null)}
               >
                 <Card
                   character={char}
-                  esFavorito={favoritos.some((f) => f.id === char.id)}
-                  onClick={() =>
-                    setOverlayCard(overlayCard === char.id ? null : char.id)
-                  }
-                  onToggleFavorito={() =>
-                    dispatch(
-                      toggleFavorite({
-                        id: char.id,
-                        nombre: char.name,
-                        especie: char.species,
-                        imagen: char.image,
-                        ubicacion: char.location.name,
-                        origen: char.origin.name,
-                        estado:
-                          char.status === "Alive"
-                            ? "Vivo"
-                            : char.status === "Dead"
-                              ? "Muerto"
-                              : "Desconocido",
-                      }),
-                    )
-                  }
+                  esFavorito={favIds.has(char.id)} // o favoritos.some(...) si querés dejarlo
+                  onClick={handleCardClick}
+                  onToggleFavorito={handleToggleFavorito}
                   disabled={isDisabled}
                   overlayVisible={overlayCard === char.id}
                   isSelected={selectedCard === char.id}

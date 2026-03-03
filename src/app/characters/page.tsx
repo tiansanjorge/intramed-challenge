@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import CharacterList from "@/components/CharacterList";
+import CharacterList from "@/components/CharacterList/CharacterList";
 import { EpisodesComparison } from "@/components/EpisodesComparison";
 import { useCharacters } from "@/hooks/useCharacters";
 
