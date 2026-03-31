@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+
 import Image from "next/image";
 import {
   Check,
@@ -15,16 +16,7 @@ import {
 
 export default function Home() {
   const router = useRouter();
-  const [isMobile, setIsMobile] = useState(false);
   const [logoLoaded, setLogoLoaded] = useState(false);
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 640);
-
-    const handleResize = () => setIsMobile(window.innerWidth < 640);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   return (
     <div className="relative min-h-screen overflow-hidden cursor-default">
@@ -78,7 +70,7 @@ export default function Home() {
               {/* Skeleton placeholder sutil */}
               {!logoLoaded && (
                 <div
-                  className="absolute inset-0 bg-gradient-to-r from-lime-400/10 via-lime-400/20 to-lime-400/10 
+                  className="absolute inset-0 bg-gradient-to-r from-lime-400/10 via-lime-400/20 to-lime-400/10
                   animate-pulse rounded-lg blur-sm"
                 />
               )}
