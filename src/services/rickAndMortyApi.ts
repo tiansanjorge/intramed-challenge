@@ -1,4 +1,4 @@
-import type { Character } from "@/hooks/useCharacters";
+import { Character } from "@/types/Character";
 
 // ============================================================================
 // TIPOS
