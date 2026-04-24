@@ -1,4 +1,9 @@
 import { Character } from "@/types/Character";
+import {
+  MOCK_CHARACTERS,
+  MOCK_EPISODES,
+  MockEpisodeResponse,
+} from "@/services/mockData";
 
 // ============================================================================
 // TIPOS
@@ -161,6 +166,27 @@ async function fetchWithCache<T>(url: string, retryCount = 0): Promise<T> {
   }
 }
 
+// ============================================================================
+// FALLBACK: mock paginado (20 items por página como la API real)
+// ============================================================================
+
+const MOCK_PAGE_SIZE = 20;
+
+function getMockPage(page: number): ApiResponse {
+  const start = (page - 1) * MOCK_PAGE_SIZE;
+  const results = MOCK_CHARACTERS.slice(start, start + MOCK_PAGE_SIZE);
+  const totalPages = Math.ceil(MOCK_CHARACTERS.length / MOCK_PAGE_SIZE);
+  return {
+    info: {
+      count: MOCK_CHARACTERS.length,
+      pages: totalPages,
+      next: page < totalPages ? `mock://page/${page + 1}` : null,
+      prev: page > 1 ? `mock://page/${page - 1}` : null,
+    },
+    results,
+  };
+}
+
 /**
  * Obtiene una página de personajes con filtros opcionales
  */
@@ -185,7 +211,8 @@ export async function fetchCharactersPage(
   const url = `${API_BASE_URL}/character?${params.toString()}`;
 
   try {
-    return await fetchWithCache<ApiResponse>(url);
+    const result = await fetchWithCache<ApiResponse>(url);
+    return result;
   } catch (error) {
     // Si no hay resultados, la API devuelve 404
     if (error instanceof Error && error.message.includes("404")) {
@@ -194,7 +221,11 @@ export async function fetchCharactersPage(
         results: [],
       };
     }
-    throw error;
+    // Fallback a mocks cuando la API no está disponible (SSL expirado, red, etc.)
+    if (process.env.NODE_ENV === "development") {
+      console.warn("⚠️ API no disponible — usando datos mock de fallback");
+    }
+    return getMockPage(page);
   }
 }
 
@@ -300,9 +331,14 @@ export async function fetchAllEpisodes(): Promise<EpisodeResponse[]> {
     return allEpisodes;
   } catch (error) {
     if (process.env.NODE_ENV === "development") {
-      console.error("❌ Error cargando todos los episodios:", error);
+      console.warn(
+        "⚠️ API de episodios no disponible — usando datos mock de fallback",
+      );
     }
-    throw error;
+    // Fallback a mocks cuando la API no está disponible
+    const fallback = MOCK_EPISODES as unknown as EpisodeResponse[];
+    cache.set(cacheKey, fallback);
+    return fallback;
   }
 }
 
